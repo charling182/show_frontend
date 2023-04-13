@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+    <title><%= VUE_APP_TITLE %></title>
+    <meta name="keywords" content="beehive,Beehive,项目管理,项目管理系统,vue,node,egg.js,teambition"/>
+    <link rel="stylesheet" href="<%= BASE_URL %>static/css/loading.css" />
+    <% for(var css of htmlWebpackPlugin.options.cdn.css) { %>
+    <link rel="stylesheet" href="<%=css%>" />
+    <% } %> <% for(var js of htmlWebpackPlugin.options.cdn.js) { %>
+    <script src="<%=js%>"></script>
+    <% } %>
+    <script>
+      var isPreview = window.location.hostname === 'beehives.imfdj.top'
+      if (window.location.hostname === 'beehive.imfdj.top' || isPreview) {
+        var _hmt = _hmt || [];
+        (function(isPreview) {
+          var hm = document.createElement("script");
+          if(isPreview) {
+            hm.src = 'https://hm.baidu.com/hm.js?20f9d4921b9ccfcc714dcf9f1ebd22ec';
+          }else {
+            hm.src = 'https://hm.baidu.com/hm.js?28649c7b9d5e2f3f47ec2d333a678bf8';
+          }
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })(isPreview);
+      }
+    </script>
+  </head>
+  <body>
+    <noscript> noscript </noscript>
+    <div id="app">
+      <div class="first-loading-wrp">
+        <div class="loading-wrp">
+          <span class="dot dot-spin"><i></i><i></i><i></i><i></i></span>
+        </div>
+        <h1><%= VUE_APP_TITLE %></h1>
+      </div>
+    </div>
+  </body>
+</html>
