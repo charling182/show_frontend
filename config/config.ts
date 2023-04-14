@@ -1,5 +1,7 @@
 import { defineConfig } from 'umi';
 import alias from './alias.config';
+import extraBabelPlugins from './extraBabelPlugins.config';
+import proxy from './proxy.config';
 
 /**
  * umi的配置文件，详细文档参考这里：https://umijs.org/zh-CN/config
@@ -17,6 +19,8 @@ const defaultConfig = defineConfig({
 export default [
   defaultConfig,
   alias, // 配置别名，对引用路径进行映射。
+  extraBabelPlugins, // 配置额外的 babel 插件。
+  proxy, // 配置开发阶段的代理
 ].reduce(
   (previous, current) => ({ ...previous, ...current } as typeof defaultConfig),
   {},

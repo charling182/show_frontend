@@ -1,11 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { IRouteComponentProps } from 'umi';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import ShapeShifter from '@/components/shape_shifter';
 import { title } from '~/config/_vars';
 import qs from 'qs';
+import LoginForm from './components/login-form';
+import RegisterForm from './components/register-form';
+import RetrievePasswordForm from './components/retrieve-password-form';
+import { When, Otherwise, Choose } from 'tsx-control-statements/components';
 
 interface FormValues {
   username: string;
@@ -17,9 +21,11 @@ const getLogoTitle = (title: string) => {
   return title.charAt(0).toUpperCase() + title.slice(1);
 };
 const Login = (props: IRouteComponentProps) => {
+  const [status, setStatus] = useState<
+    'login' | 'register' | 'retrievePassword'
+  >('login');
   const [remember, setRemember] = useState<boolean>(false);
   const [logoTitle, setLogoTitle] = useState<string>(getLogoTitle(title));
-  // const [simulateArr, setSimulateArr] = useState<string[]>(['#icon logo',getLogoTitle(title),'']);
   const [simulateArr, setSimulateArr] = useState<string[]>([
     '#icon charling',
     getLogoTitle(title),
@@ -29,23 +35,10 @@ const Login = (props: IRouteComponentProps) => {
   const [timerInter, setTimerInter] = useState<any>(null);
   const simulateIndexRef = useRef(0);
 
-  const onFinish = (values: FormValues) => {
-    console.log('Received values of form: ', values);
-  };
   const clickHandler = () => {
     if (shapeShifterRef.current) {
       shapeShifterRef.current.simulate(simulateArr[simulateIndexRef.current]);
       simulateIndexRef.current = (simulateIndexRef.current + 1) % 3;
-      // console.log('simulateIndex',simulateIndex);
-
-      // console.log('simulateIndex',simulateIndex,(simulateIndex + 1) % 3);
-      // let nextIndex:number = (simulateIndex + 1) % 3;
-      // setSimulateIndex(nextIndex % 3);
-      // setSimulateIndex(prevState => {
-      //     console.log('prevState',prevState);
-      //     let nextIndex:number = (prevState + 1) % 3;
-      //     return nextIndex;
-      // });
     }
   };
   const clearTimer = () => {
@@ -94,55 +87,27 @@ const Login = (props: IRouteComponentProps) => {
   }, []);
 
   return (
-    <div>
+    <div className={styles['login-container']}>
       <ShapeShifter ref={shapeShifterRef} />
-      <div style={{ width: 300, margin: 'auto', marginTop: 50 }}>
-        <Form
-          name="normal_login"
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-        >
-          <Form.Item
-            name="username"
-            rules={[
-              { required: true, message: 'Please input your Username!' },
-              { type: 'email', message: 'Please input a valid email address!' },
-            ]}
-          >
-            <Input
-              prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="Email"
-            />
-          </Form.Item>
-          <Form.Item
-            name="password"
-            rules={[{ required: true, message: 'Please input your Password!' }]}
-          >
-            <Input
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              type="password"
-              placeholder="Password"
-            />
-          </Form.Item>
-          <Form.Item>
-            <Form.Item name="remember" valuePropName="checked" noStyle>
-              <Checkbox onChange={(e) => setRemember(e.target.checked)}>
-                Remember me
-              </Checkbox>
-            </Form.Item>
-
-            <a style={{ float: 'right' }} href="/">
-              Forgot password
-            </a>
-          </Form.Item>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit" block>
-              Log in
-            </Button>
-            Or <a href="/">register now!</a>
-          </Form.Item>
-        </Form>
+      <div className={styles['content']}>
+        <Row>
+          <Col xs={24} sm={24} md={12} lg={16} xl={16}>
+            <div style={{ color: 'transparent' }}>占位符</div>
+          </Col>
+          <Col xs={24} sm={24} md={12} lg={8} xl={8}>
+            <Choose>
+              <When condition={status === 'login'}>
+                <LoginForm setStatus={setStatus} />
+              </When>
+              <When condition={status === 'register'}>
+                <RegisterForm setStatus={setStatus} />
+              </When>
+              <Otherwise>
+                <RetrievePasswordForm setStatus={setStatus} />
+              </Otherwise>
+            </Choose>
+          </Col>
+        </Row>
       </div>
     </div>
   );
