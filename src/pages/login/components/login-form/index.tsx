@@ -1,9 +1,10 @@
 import React, { useState, Dispatch } from 'react';
-import { Form, Input, Button, Checkbox, Space } from 'antd';
+import { Form, Input, Button, Checkbox, Space, message } from 'antd';
 import { UserOutlined, LockOutlined, GithubOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import { title } from '~/config/_vars';
 import { If } from 'tsx-control-statements/components';
+import { login } from '@/api';
 
 interface FormValues {
   username: string;
@@ -20,9 +21,18 @@ const LoginForm = (props: LoginFormProps) => {
   const { setStatus } = props;
   const [loading, setLoading] = useState<boolean>(false);
   const logoTitle: string = title.charAt(0).toUpperCase() + title.slice(1);
-  const onFinish = (values: FormValues) => {
+  const onFinish = async (values: FormValues) => {
     // 在这里调用接口
     console.log('Received values of form: ', values);
+    try {
+      const res = await login(values);
+      if (res.code === 200) {
+        console.log(res);
+        message.success('登录成功');
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Form

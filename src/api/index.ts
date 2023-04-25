@@ -1,12 +1,36 @@
 // import { message } from 'udesk-ui';
 // import { handleError } from '../utils';
 // import { IHttpPromise } from './type';
+import { request } from 'umi';
+import { encryptedData } from '@/utils/encrypt';
 
 // /**
 //  * 后端接口地址的前缀。
 //  * 一般用来拼接后端接口的url地址，但如果使用`request`调用后端接口的话，已经自动配置前缀，用不到这个值
 //  */
 export const backendBase = `${window.location.origin}/backend`;
+
+export async function getTestData() {
+  return request('/user', {
+    method: 'get',
+  });
+}
+export async function login(data: any) {
+  let password = await encryptedData(data.password);
+
+  return request('/user/login', {
+    method: 'post',
+    data: {
+      ...data,
+      password,
+    },
+  });
+}
+export async function getPublicKey() {
+  return request('/configuration/public_key', {
+    method: 'get',
+  });
+}
 
 // export const apiBase = `${window.location.origin}/api`;
 

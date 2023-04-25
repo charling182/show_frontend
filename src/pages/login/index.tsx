@@ -10,6 +10,7 @@ import LoginForm from './components/login-form';
 import RegisterForm from './components/register-form';
 import RetrievePasswordForm from './components/retrieve-password-form';
 import { When, Otherwise, Choose } from 'tsx-control-statements/components';
+import { getTestData } from '@/api';
 
 interface FormValues {
   username: string;
@@ -67,6 +68,9 @@ const Login = (props: IRouteComponentProps) => {
   };
 
   useEffect(() => {
+    getTestData().then((res) => {
+      console.log('getTestData', res);
+    });
     // 如果路由中带有code参数则认为是github登录中，显示github Icon
     let { code } = qs.parse(window.location.search?.replace(/^\?/, ''));
     if (shapeShifterRef.current) {

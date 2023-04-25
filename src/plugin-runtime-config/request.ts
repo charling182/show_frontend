@@ -21,7 +21,7 @@ type RequestOptionsExtra = {
 const handleRequestInterceptors = (url: string, options: any) => {
   // 微信客服相关接口基地址与其他不同,故需要专门处理
   let handleUrl: string = url;
-  const appToken = sessionStorage.getItem('wxbl-auth-token');
+  const appToken = sessionStorage.getItem('charling-auth-token');
   // 将参数中非false，0 的非真参数去除
   const paramsArr = Reflect.ownKeys(options.params);
   paramsArr.forEach((key) => {
@@ -90,7 +90,7 @@ const handleRequestInterceptors = (url: string, options: any) => {
         .split('=')
         .pop() || '';
     // const token = window.location.search.replace('?token=', '');
-    sessionStorage.setItem('wxbl-auth-token', token);
+    sessionStorage.setItem('charling-auth-token', token);
     headers = {
       ...headers,
       Accept: 'application/json',
@@ -111,7 +111,10 @@ const handleRequestInterceptors = (url: string, options: any) => {
 };
 
 export const request: RequestConfig = {
+  // 接口地址前缀，会拼接到 url 前面
   prefix: backendBase,
+  timeout: 1000,
+  // 当后端接口不满足该规范的时候你需要通过该配置把后端接口数据转换为该格式，该配置只是用于错误处理，不会影响最终传递给页面的数据格式。
   errorConfig: {
     adaptor: (
       resp,
@@ -161,22 +164,8 @@ export const request: RequestConfig = {
   requestInterceptors: [handleRequestInterceptors],
   responseInterceptors: [
     (response, options: RequestOptionsInit & RequestOptionsExtra) => {
-      if (
-        response.status === 401 &&
-        history.location.pathname !== `/auth/login`
-      ) {
-        sessionStorage.removeItem('wxbl-auth-token');
-        // 伊利专属代码
-        const onlyShowMain = sessionStorage.getItem('only-show-main');
-        if (onlyShowMain === 'true') {
-          window.parent.postMessage(
-            {
-              code: '302',
-              params: {},
-            },
-            '*',
-          );
-        }
+      if (response.status === 401 && history.location.pathname !== `/login`) {
+        sessionStorage.removeItem('charling-auth-token');
         history.push('/auth/login');
       }
       if (response.ok && options.successMessage) {
