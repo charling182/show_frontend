@@ -97,7 +97,7 @@ export function render(oldRender) {
 
 export { layout };
 export { request } from './plugin-runtime-config/request';
-// export { getInitialState } from './plugin-runtime-config/initial-state';
+export { getInitialState } from './plugin-runtime-config/initial-state';
 
 // Udesk.init();
 // runInit();

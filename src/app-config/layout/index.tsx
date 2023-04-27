@@ -4,13 +4,19 @@
 // import type { LayoutConfig, ILayoutRuntimeConfig } from '@@/plugin-layout/layout/types/interface';
 // import getAccess from '@/access';
 
+import RightContent from '@/components/right-content';
 import sortBy from 'lodash-es/sortBy';
+import { title } from '~/config/_vars.ts';
+import Logo from '@/components/logo';
+import { Link } from 'umi';
 // import LogoRender from './components/logo/logo';
 // import Ccpass from './components/ccpass/ccpass';
 // import Right from './components/right/index';
 
 // import { prefixCls } from '~/config/_vars';
 // import { DEFAULT_TITLE_KEY } from '~/config/_vars';
+
+const logoTitle: string = title.charAt(0).toUpperCase() + title.slice(1);
 
 // // 对接insight 菜单 start
 // // GO_INSIGHT_MENU_KEY 菜单key值
@@ -211,14 +217,18 @@ export const layout = ({
   initialState: { settings?: LayoutSettings; currentUser?: API.CurrentUser };
 }): BasicLayoutProps => {
   return {
-    title: '66',
+    title: logoTitle,
+    // title: <div style={{paddingRight:'40px'}}>{logoTitle}</div>,
     layout: 'top',
     fixedHeader: true,
+    logo: <Logo />,
     patchMenus: (
       menuItems: MenuDataItem[],
       { initialState }: any,
     ): MenuDataItem[] => {
       let accessibleItems = getAccessibleMenuItems(menuItems);
+      console.log('initialState', initialState);
+
       console.log('accessibleItems', accessibleItems);
       let sorted = sortRoutes(accessibleItems);
       console.log('sorted', sorted);
@@ -248,7 +258,7 @@ export const layout = ({
       // let sorted = sortRoutes(accessibleItems);
       // return sorted;
     },
-    // rightContentRender: () => (<div>右侧内容区</div>),
+    rightContentRender: () => <RightContent />,
     // footerRender: () => <div>底部内容区</div>,
     // headerContentRender: () => <div>头部内容区</div>,
     // onPageChange: () => {
@@ -260,6 +270,18 @@ export const layout = ({
     //   }
     // },
     // menuHeaderRender: () => 'menuHeaderRender',
+    menuItemRender: (menuItemProps: any, defaultDom: any) => {
+      console.log('menuItemProps', menuItemProps);
+
+      if (menuItemProps.isUrl || menuItemProps.routes) {
+        return defaultDom;
+      }
+      if (menuItemProps.path && location.pathname !== menuItemProps.path) {
+        return <Link to={menuItemProps.path}>{defaultDom}</Link>;
+      }
+
+      return defaultDom;
+    },
     ...initialState?.settings,
   };
 };

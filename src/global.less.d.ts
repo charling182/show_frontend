@@ -8,6 +8,10 @@ export type Styles = {
   skeleton: string;
   'media-block': string;
   'round-shape': string;
+  'charling-pro-top-nav-header-main': string;
+  'charling-pro-top-nav-header-logo': string;
+  'charling-layout-content': string;
+  root: string;
 };
 
 export type ClassNames = keyof Styles;

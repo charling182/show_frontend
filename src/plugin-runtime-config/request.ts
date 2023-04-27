@@ -166,7 +166,7 @@ export const request: RequestConfig = {
     (response, options: RequestOptionsInit & RequestOptionsExtra) => {
       if (response.status === 401 && history.location.pathname !== `/login`) {
         sessionStorage.removeItem('charling-auth-token');
-        history.push('/auth/login');
+        history.push('/login');
       }
       if (response.ok && options.successMessage) {
         // message.success(options.successMessage);
