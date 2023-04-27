@@ -4,7 +4,7 @@
 // import type { LayoutConfig, ILayoutRuntimeConfig } from '@@/plugin-layout/layout/types/interface';
 // import getAccess from '@/access';
 
-// import sortBy from 'lodash-es/sortBy';
+import sortBy from 'lodash-es/sortBy';
 // import LogoRender from './components/logo/logo';
 // import Ccpass from './components/ccpass/ccpass';
 // import Right from './components/right/index';
@@ -214,6 +214,40 @@ export const layout = ({
     title: '66',
     layout: 'top',
     fixedHeader: true,
+    patchMenus: (
+      menuItems: MenuDataItem[],
+      { initialState }: any,
+    ): MenuDataItem[] => {
+      let accessibleItems = getAccessibleMenuItems(menuItems);
+      console.log('accessibleItems', accessibleItems);
+      let sorted = sortRoutes(accessibleItems);
+      console.log('sorted', sorted);
+      return sorted;
+      // 控制伊利的dashboard工作台页面是否显示菜单，配合pages/index.ts文件的getFirstMenu实现默认显示
+      // const dashBoardSwitch = initialState?.dashBoardSwitch === 'YES';
+      // const idx = menuItems.findIndex((i) => i.key === '/workbench-dashboard');
+      // const idx1 = menuItems.findIndex((i) => i.key === '/workbench');
+      // if (idx !== -1) {
+      //     menuItems[idx].hideInMenu = !dashBoardSwitch;
+      // }
+      // if (idx1 !== -1 && !menuItems[idx1].hideInMenu) {
+      //     // workbench 与 workbench-dashboard 目前关系为互斥
+      //     menuItems[idx1].hideInMenu = dashBoardSwitch;
+      // }
+      /** 二级菜单后端判断是否返回 */
+      // const rpaSwitch = initialState?.sysCompany?.rpaType === 'third';
+      // const idx2 = menuItems.findIndex((i) => i.key === '/rpa-robot');
+      // if (idx2 !== -1) {
+      //     const idx3 = menuItems[idx2].children.findIndex((i) => i.key === '/rpa-robot/pull-groups/list');
+      //     if (idx3 != -1) {
+      //         menuItems[idx2].children[idx3].hideInMenu = rpaSwitch;
+      //     }
+      // }
+      // const access = getAccess(initialState);
+      // let accessibleItems = getAccessibleMenuItems(menuItems, access);
+      // let sorted = sortRoutes(accessibleItems);
+      // return sorted;
+    },
     // rightContentRender: () => (<div>右侧内容区</div>),
     // footerRender: () => <div>底部内容区</div>,
     // headerContentRender: () => <div>头部内容区</div>,
@@ -229,3 +263,50 @@ export const layout = ({
     ...initialState?.settings,
   };
 };
+
+function sortRoutes(routes: MenuDataItem[]) {
+  if (routes) {
+    const sorted = sortBy(routes, 'order');
+    sorted.forEach((route) => {
+      // eslint-disable-next-line no-param-reassign
+      route.children = sortRoutes(route.children as MenuDataItem[]);
+      // eslint-disable-next-line no-param-reassign
+      route.routes = sortRoutes(route.routes as MenuDataItem[]);
+    });
+    return sorted;
+  } else {
+    return routes;
+  }
+}
+
+function getAccessibleMenuItems(menuData: MenuDataItem[]) {
+  // 根据item.unaccessible递归过滤子菜单，滤掉unaccessible为true的菜单项
+  // const insightAccessible = access[INSIGHT_MENU_ACCESS];
+  // return menuData
+  //     .map((item) => {
+  //         // const accessible = !item.unaccessible;
+  //         // 统计分析菜单的子菜单(除去高级分析)全部无权限时,统计分析的unaccessible会判定为false,即无权限
+  //         // 因为高级分析无对应函数组件,所以框架内部按照默认路由把该菜单考虑在内,需要手动添加
+  //         // locale属性,是为了去寻找对应的菜单名称,若无权限,为false
+  //             let newItem: MenuDataItem = { ...item };
+  //             // if (newItem.access && !newItem.hideInMenu) {
+  //             //     newItem.hideInMenu = !access[newItem.access];
+  //             // }
+  //             // if (item.key === ANALYSIS_KEY) {
+  //             //     newItem.unaccessible = false;
+  //             //     newItem.locale = 'menu.analysis';
+  //             // }
+  //             function helper(key: string) {
+  //                 if (newItem[key]) {
+  //                     newItem[key] = getAccessibleMenuItems(newItem[key]);
+  //                     //    在统计分析下新增一个菜单 高级分析
+  //                 }
+  //             }
+  //             helper('children');
+  //             helper('routes');
+  //             return newItem;
+  //     })
+  //     .filter(Boolean) as MenuDataItem[];
+
+  return menuData.filter((item, index) => index !== 2);
+}

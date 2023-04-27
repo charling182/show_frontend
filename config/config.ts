@@ -3,6 +3,9 @@ import alias from './alias.config';
 import extraBabelPlugins from './extraBabelPlugins.config';
 import proxy from './proxy.config';
 import plugin from './plugin.config';
+import theme from './theme.config';
+import scripts from './scripts.config';
+// import chainWebpack from './chainWebpack.config';
 
 /**
  * 项目输出路径。优先使用build项目路径，如果没有，则使用本项目的dist目录
@@ -22,6 +25,21 @@ const defaultConfig = defineConfig({
   hash: true,
   // 指定输出路径
   outputPath: OUTPUT_PATH,
+  // mfsu 是一种基于 webpack5 新特性 Module Federation 的打包提速方案   https://umijs.org/zh-CN/docs/mfsu
+  mfsu: {},
+  // webpack5 是一种基于 webpack5 新特性的打包提速方案   https://umijs.org/zh-CN/docs/webpack5
+  webpack5: {},
+  // 配置额外的 umi 插件
+  dynamicImport: {
+    loading: '@/components/page-loading/index',
+  },
+  // 配置额外的 link 标签
+  links: [
+    {
+      rel: 'stylesheet',
+      href: `/static/css/nprogress-0.2.0.css`,
+    },
+  ],
 });
 
 export default [
@@ -30,6 +48,9 @@ export default [
   extraBabelPlugins, // 配置额外的 babel 插件。
   proxy, // 配置开发阶段的代理
   plugin, // 插件相关配置
+  theme, // 配置主题，实际上是配 less 变量
+  // chainWebpack, // 修改 webpack 配置。
+  scripts, // 配置静态脚本
 ].reduce(
   (previous, current) => ({ ...previous, ...current } as typeof defaultConfig),
   {},

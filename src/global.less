@@ -1,0 +1,332 @@
+.charling-icon-font {
+  &.xl {
+    font-size: 48px;
+  }
+
+  &.lg {
+    font-size: 36px;
+  }
+
+  &.md {
+    font-size: 24px;
+  }
+
+  &.sm {
+    font-size: 16px;
+  }
+
+  &.xs {
+    font-size: 12px;
+  }
+}
+.skeleton.media-block {
+  font-size: 19px;
+
+  .round-shape {
+    width: 65px !important;
+    min-width: 65px !important;
+    height: 65px !important;
+    min-height: 65px !important;
+  }
+}
+
+// #root {
+//     height: 100%;
+
+//     .ant-design-pro.@{ant-prefix}-pro-basicLayout {
+//         height: 100%;
+
+//         section.@{ant-prefix}-layout {
+//             div.@{ant-prefix}-layout {
+//                 height: 100%;
+
+//                 .@{ant-prefix}-layout-content {
+//                     .@{ant-prefix}-pro-basicLayout-children-content-wrap {
+//                         height: 100%;
+
+//                         .@{ant-prefix}-pro-grid-content {
+//                             height: 100%;
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
+
+//     .@{ant-prefix}-layout-sider-collapsed {
+//         .@{ant-prefix}-pro-sider-logo {
+//             h1 {
+//                 display: none;
+//             }
+//         }
+//     }
+// }
+
+// #app-loader {
+//     /*
+//         https://codepen.io/kevinjannis/pen/KwJvpa
+//     */
+//     height: 100%;
+
+//     section.wrapper {
+//         height: 100%;
+//         padding: 40px 0;
+//     }
+
+//     section.wrapper.dark {
+//         background: #e5e5e5;
+//     }
+
+//     div,
+//     i {
+//         box-sizing: border-box;
+//     }
+
+//     div.spinner {
+//         position: relative;
+//         display: block;
+//         width: 308px;
+//         height: 308px;
+//         margin: auto;
+//         margin-top: 100px;
+//         -moz-animation: rotate 10s infinite linear;
+//         -webkit-animation: rotate 10s infinite linear;
+//         animation: rotate 10s infinite linear;
+//     }
+
+//     div.spinner i {
+//         position: absolute;
+//         top: 50%;
+//         left: 50%;
+//         display: inline-block;
+//         border: solid 10px transparent;
+//         border-bottom: none;
+//         -moz-transform-origin: 50% 100% 0;
+//         -webkit-transform-origin: 50% 100% 0;
+//         transform-origin: 50% 100% 0;
+//         -moz-animation: rotate 3s infinite cubic-bezier(0.09, 0.6, 0.8, 0.03);
+//         -webkit-animation: rotate 3s infinite cubic-bezier(0.09, 0.6, 0.8, 0.03);
+//         animation: rotate 3s infinite cubic-bezier(0.09, 0.6, 0.8, 0.03);
+//     }
+
+//     div.spinner i:nth-child(1) {
+//         width: 126px;
+//         height: 63px;
+//         margin-top: -63px;
+//         margin-left: -63px;
+//         border-color: #2172b8;
+//         border-top-left-radius: 110px;
+//         border-top-right-radius: 110px;
+//         -moz-animation-timing-function: cubic-bezier(0.09, 0.3, 0.12, 0.03);
+//         -webkit-animation-timing-function: cubic-bezier(0.09, 0.3, 0.12, 0.03);
+//         animation-timing-function: cubic-bezier(0.09, 0.3, 0.12, 0.03);
+//     }
+
+//     div.spinner i:nth-child(2) {
+//         width: 152px;
+//         height: 76px;
+//         margin-top: -76px;
+//         margin-left: -76px;
+//         border-color: #18a39b;
+//         border-top-left-radius: 120px;
+//         border-top-right-radius: 120px;
+//         -moz-animation-timing-function: cubic-bezier(0.09, 0.6, 0.24, 0.03);
+//         -webkit-animation-timing-function: cubic-bezier(0.09, 0.6, 0.24, 0.03);
+//         animation-timing-function: cubic-bezier(0.09, 0.6, 0.24, 0.03);
+//     }
+
+//     div.spinner i:nth-child(3) {
+//         width: 178px;
+//         height: 89px;
+//         margin-top: -89px;
+//         margin-left: -89px;
+//         border-color: #82c545;
+//         border-top-left-radius: 130px;
+//         border-top-right-radius: 130px;
+//         -moz-animation-timing-function: cubic-bezier(0.09, 0.9, 0.36, 0.03);
+//         -webkit-animation-timing-function: cubic-bezier(0.09, 0.9, 0.36, 0.03);
+//         animation-timing-function: cubic-bezier(0.09, 0.9, 0.36, 0.03);
+//     }
+
+//     div.spinner i:nth-child(4) {
+//         width: 204px;
+//         height: 102px;
+//         margin-top: -102px;
+//         margin-left: -102px;
+//         border-color: #f8b739;
+//         border-top-left-radius: 140px;
+//         border-top-right-radius: 140px;
+//         -moz-animation-timing-function: cubic-bezier(0.09, 1.2, 0.48, 0.03);
+//         -webkit-animation-timing-function: cubic-bezier(0.09, 1.2, 0.48, 0.03);
+//         animation-timing-function: cubic-bezier(0.09, 1.2, 0.48, 0.03);
+//     }
+
+//     div.spinner i:nth-child(5) {
+//         width: 230px;
+//         height: 115px;
+//         margin-top: -115px;
+//         margin-left: -115px;
+//         border-color: #f06045;
+//         border-top-left-radius: 150px;
+//         border-top-right-radius: 150px;
+//         -moz-animation-timing-function: cubic-bezier(0.09, 1.5, 0.6, 0.03);
+//         -webkit-animation-timing-function: cubic-bezier(0.09, 1.5, 0.6, 0.03);
+//         animation-timing-function: cubic-bezier(0.09, 1.5, 0.6, 0.03);
+//     }
+
+//     div.spinner i:nth-child(6) {
+//         width: 256px;
+//         height: 128px;
+//         margin-top: -128px;
+//         margin-left: -128px;
+//         border-color: #ed2861;
+//         border-top-left-radius: 160px;
+//         border-top-right-radius: 160px;
+//         -moz-animation-timing-function: cubic-bezier(0.09, 1.8, 0.72, 0.03);
+//         -webkit-animation-timing-function: cubic-bezier(0.09, 1.8, 0.72, 0.03);
+//         animation-timing-function: cubic-bezier(0.09, 1.8, 0.72, 0.03);
+//     }
+
+//     div.spinner i:nth-child(7) {
+//         width: 282px;
+//         height: 141px;
+//         margin-top: -141px;
+//         margin-left: -141px;
+//         border-color: #c12680;
+//         border-top-left-radius: 170px;
+//         border-top-right-radius: 170px;
+//         -moz-animation-timing-function: cubic-bezier(0.09, 2.1, 0.84, 0.03);
+//         -webkit-animation-timing-function: cubic-bezier(0.09, 2.1, 0.84, 0.03);
+//         animation-timing-function: cubic-bezier(0.09, 2.1, 0.84, 0.03);
+//     }
+
+//     div.spinner i:nth-child(8) {
+//         width: 308px;
+//         height: 154px;
+//         margin-top: -154px;
+//         margin-left: -154px;
+//         border-color: #5d3191;
+//         border-top-left-radius: 180px;
+//         border-top-right-radius: 180px;
+//         -moz-animation-timing-function: cubic-bezier(0.09, 2.4, 0.96, 0.03);
+//         -webkit-animation-timing-function: cubic-bezier(0.09, 2.4, 0.96, 0.03);
+//         animation-timing-function: cubic-bezier(0.09, 2.4, 0.96, 0.03);
+//     }
+
+//     @-moz-keyframes rotate {
+//         to {
+//             -moz-transform: rotate(360deg);
+//             transform: rotate(360deg);
+//         }
+//     }
+
+//     @-webkit-keyframes rotate {
+//         to {
+//             -webkit-transform: rotate(360deg);
+//             transform: rotate(360deg);
+//         }
+//     }
+
+//     @keyframes rotate {
+//         to {
+//             -moz-transform: rotate(360deg);
+//             -ms-transform: rotate(360deg);
+//             -webkit-transform: rotate(360deg);
+//             transform: rotate(360deg);
+//         }
+//     }
+// }
+
+// body {
+//     background-color: #f5f5f9;
+
+//     // ccpass 样式重置
+//     .udesk-cti-phone-bar {
+//         a {
+//             color: #fff;
+//         }
+//     }
+
+//     //udesk 报表组件样式重写
+//     .report-echarts {
+//         tbody > tr.row-item-hover > td {
+//             background-color: rgba(24, 144, 255, 0.06) !important;
+//         }
+//     }
+
+//     .@{ant-prefix}-input-clear-icon {
+//         color: rgba(0, 0, 0, 0.25);
+//     }
+
+//     // 嵌入crm的页面，复选框大小被固定
+//     .@{ant-prefix}-table-content {
+//         .@{ant-prefix}-checkbox-input {
+//             width: 100%;
+//             height: 100%;
+//         }
+//     }
+
+//     .@{ant-prefix}-pro-table-column-setting-overlay {
+//         .@{ant-prefix}-tree-node-content-wrapper {
+//             overflow: hidden;
+
+//             .@{ant-prefix}-pro-table-column-setting-list-item-title {
+//                 overflow: hidden;
+//             }
+//         }
+//     }
+
+//     .@{ant-prefix}-table {
+//         color: rgba(0, 0, 0, 0.85);
+//     }
+
+//     .@{ant-prefix}-table.@{ant-prefix}-table-middle {
+//         .@{ant-prefix}-table-tbody {
+//             tr {
+//                 td {
+//                     padding: 12px 8px;
+//                 }
+//             }
+//         }
+//     }
+
+//     .@{ant-prefix}-table.@{ant-prefix}-table-middle .@{ant-prefix}-table-thead tr th {
+//         padding: 12px 8px;
+//     }
+
+//     .@{ant-prefix}-table.@{ant-prefix}-table-small {
+//         .@{ant-prefix}-table-tbody {
+//             tr {
+//                 td {
+//                     padding: 8px 8px;
+//                 }
+//             }
+//         }
+
+//         .@{ant-prefix}-table-thead {
+//             tr {
+//                 th {
+//                     padding: 8px 8px;
+//                 }
+//             }
+//         }
+//     }
+
+//     .@{ant-prefix}-page-header.has-footer .@{ant-prefix}-page-header-footer {
+//         margin-top: 0;
+//     }
+
+//     .@{ant-prefix}-popover
+//         .@{ant-prefix}-pro-table-column-setting-list
+//         .@{ant-prefix}-tree-list
+//         .@{ant-prefix}-tree-treenode
+//         .@{ant-prefix}-tree-draggable-icon {
+//         flex-shrink: 0;
+//     }
+// }
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
+  box-shadow: 0 0 0px 1000px white inset;
+  transition: background-color 5000s ease-out 0.5s;
+}

@@ -4,13 +4,18 @@ import {
   LaptopOutlined,
   NotificationOutlined,
 } from '@ant-design/icons';
+import ProjectHeader from '@/components/layout/header';
+import { Route, Switch } from 'react-router-dom';
+import PersonalCenter from '@/pages/personal-center/_layout';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
-export default function MyLayout() {
+export default function MyLayout(props) {
   return (
     <Layout>
+      <ProjectHeader />
+
       <Header className="header">
         <div className="logo" />
         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
@@ -32,9 +37,7 @@ export default function MyLayout() {
             margin: 0,
             minHeight: 280,
           }}
-        >
-          Content
-        </Content>
+        ></Content>
       </Layout>
     </Layout>
   );

@@ -6,7 +6,7 @@ import { defineConfig } from 'umi';
 export default defineConfig({
   extraBabelPlugins: [
     'jsx-control-statements',
-    // 'lodash',
+    'lodash',
     // 已经在 plugin-antd 中自动引入了
     // [
     //     'babel-plugin-import',

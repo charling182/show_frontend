@@ -1,0 +1,26 @@
+.user-popover {
+  padding: 4px 0 !important;
+  .options {
+    .item {
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      height: 36px;
+      cursor: pointer;
+      .switch-button {
+        color: #f56c6c;
+        margin-right: 4px;
+      }
+      &:hover {
+        background-color: #e6f7ff;
+      }
+    }
+  }
+}
+.user-popover-component {
+  :global {
+    .@{ant-prefix}-popover-inner-content {
+      padding: 8px 0;
+    }
+  }
+}
