@@ -43,22 +43,22 @@ export function patchRoutes(args: { routes: types.IRoute[] }) {
   //     layout.pure = true;
   //     sessionStorage.setItem('only-show-main', 'true');
   // }
-  let routes = [...args.routes];
+  // let routes = [...args.routes];
 
-  routes = routes.map((route) => {
-    let test = { ...route };
-    test.routes = test.routes.map((item) => {
-      let testChildren = { ...item };
-      if (testChildren.path === '/personal-center') {
-        testChildren.routes = testChildren.routes.filter((item) => {
-          return item.path !== '/personal-center/test';
-        });
-      }
-      return testChildren;
-    });
-    return test;
-  });
-  console.log('patchRoutes', routes);
+  // routes = routes.map((route) => {
+  //   let test = { ...route };
+  //   test.routes = test.routes.map((item) => {
+  //     let testChildren = { ...item };
+  //     if (testChildren.path === '/personal-center') {
+  //       testChildren.routes = testChildren.routes.filter((item) => {
+  //         return item.path !== '/personal-center/test';
+  //       });
+  //     }
+  //     return testChildren;
+  //   });
+  //   return test;
+  // });
+  console.log('patchRoutes', args.routes);
 
   return args.routes;
 }

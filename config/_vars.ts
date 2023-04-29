@@ -14,3 +14,7 @@ export const prefixCls = 'charling';
  * 设为 CDN 的值就可以。
  * */
 // export const publicPath = process.env.WE_CDN_STATUE === 'open' ? cdnPath : routePrefix;
+//token名称
+export const tokenName: string = 'Authorization';
+//token在localStorage、sessionStorage、cookie存储的key的名称
+export const tokenTableName = 'vue-beehive';

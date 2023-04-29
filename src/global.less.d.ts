@@ -11,6 +11,8 @@ export type Styles = {
   'charling-pro-top-nav-header-main': string;
   'charling-pro-top-nav-header-logo': string;
   'charling-layout-content': string;
+  'charling-pro-top-nav-header': string;
+  anticon: string;
   root: string;
 };
 

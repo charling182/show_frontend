@@ -1,16 +1,7 @@
 import { backendBase } from '@/api/index';
 import { RequestConfig, ErrorShowType, history } from 'umi';
 import Request, { RequestOptionsInit } from 'umi-request';
-// import { message } from 'udesk-ui';
-
-// import {
-//     WechatApiList,
-//     NoWechatApiList,
-//     WechatBase,
-//     OtherBase,
-// } from '@/api/wechat-customer-service/api';
-// import progressMiddleware from 'umi-request-progress';
-// Request.use(progressMiddleware, { core: true });
+import { getJwtFromLocalstorage, removeJwtFromLocalstorage } from '@/utils';
 
 type RequestOptionsExtra = {
   skipErrorHandler?: boolean;
@@ -21,7 +12,7 @@ type RequestOptionsExtra = {
 const handleRequestInterceptors = (url: string, options: any) => {
   // 微信客服相关接口基地址与其他不同,故需要专门处理
   let handleUrl: string = url;
-  const appToken = sessionStorage.getItem('charling-auth-token');
+  const appToken = getJwtFromLocalstorage();
   // 将参数中非false，0 的非真参数去除
   const paramsArr = Reflect.ownKeys(options.params);
   paramsArr.forEach((key) => {
@@ -36,6 +27,8 @@ const handleRequestInterceptors = (url: string, options: any) => {
   const defaultErrorHandler = options.errorHandler;
   // eslint-disable-next-line no-param-reassign
   options.errorHandler = (error: any) => {
+    console.log('error----------------', error);
+
     // 判断是否被cancel了。
     // 如果是，则构造一个info子对象，并把showType设置为silent，这样umi底层就不弹错误提示了
     // 支持使用umi的两种取消方式：CancelToken（已废弃）和AbortController（推荐）
@@ -62,7 +55,7 @@ const handleRequestInterceptors = (url: string, options: any) => {
     }
     throw error;
   };
-  // 员工操作日志埋点在header中携带标识,兼容一下appToken的情况
+  // 如果有操作日志埋点在header中携带标识,就需要兼容一下appToken的情况
   let headers: any =
     options?.headers && Object.keys(options?.headers)
       ? { ...options?.headers }
@@ -72,29 +65,6 @@ const handleRequestInterceptors = (url: string, options: any) => {
       ...headers,
       Accept: 'application/json',
       Authorization: appToken,
-    };
-    if (options.requestType !== 'form') {
-      headers['Content-Type'] = 'application/json';
-    }
-    return {
-      url: handleUrl,
-      options: { ...options, headers },
-    };
-  }
-  if (window.location.search && window.location.search.includes('token=')) {
-    const token =
-      window.location.search
-        .split('&')
-        .filter((a) => a.includes('token='))
-        .join('=')
-        .split('=')
-        .pop() || '';
-    // const token = window.location.search.replace('?token=', '');
-    sessionStorage.setItem('charling-auth-token', token);
-    headers = {
-      ...headers,
-      Accept: 'application/json',
-      Authorization: token,
     };
     if (options.requestType !== 'form') {
       headers['Content-Type'] = 'application/json';
@@ -115,6 +85,7 @@ export const request: RequestConfig = {
   prefix: backendBase,
   timeout: 1000,
   // 当后端接口不满足该规范的时候你需要通过该配置把后端接口数据转换为该格式，该配置只是用于错误处理，不会影响最终传递给页面的数据格式。
+  // 且会自行生成message提示框,所以不用专门在接口里面处理报错信息
   errorConfig: {
     adaptor: (
       resp,
@@ -136,7 +107,9 @@ export const request: RequestConfig = {
           bizCode: errorInfo.bizCode || context.res.status?.toString(),
           errorCode: context.res.status?.toString(),
           errorMessage:
-            context.req.options.errorMessage || context.res.statusText,
+            errorInfo.msg ||
+            context.req.options.errorMessage ||
+            context.res.statusText,
           showType:
             context.res.status === 401
               ? ErrorShowType.SILENT
@@ -165,7 +138,9 @@ export const request: RequestConfig = {
   responseInterceptors: [
     (response, options: RequestOptionsInit & RequestOptionsExtra) => {
       if (response.status === 401 && history.location.pathname !== `/login`) {
-        sessionStorage.removeItem('charling-auth-token');
+        if (getJwtFromLocalstorage()) {
+          removeJwtFromLocalstorage();
+        }
         history.push('/login');
       }
       if (response.ok && options.successMessage) {

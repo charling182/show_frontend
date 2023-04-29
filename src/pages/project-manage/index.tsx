@@ -10,6 +10,7 @@ const ProjectManage = () => {
 
 ProjectManage.menu = {
   name: '项目管理',
+  icon: 'LineChartOutlined',
 };
 
 export default ProjectManage;

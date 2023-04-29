@@ -5,6 +5,12 @@ import styles from './index.less';
 import { title } from '~/config/_vars';
 import { If } from 'tsx-control-statements/components';
 import { login } from '@/api';
+import { history } from 'umi';
+import {
+  setJwtToLocalstorage,
+  removeJwtFromLocalstorage,
+  getJwtFromLocalstorage,
+} from '@/utils';
 
 interface FormValues {
   username: string;
@@ -22,13 +28,15 @@ const LoginForm = (props: LoginFormProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const logoTitle: string = title.charAt(0).toUpperCase() + title.slice(1);
   const onFinish = async (values: FormValues) => {
-    // 在这里调用接口
-    console.log('Received values of form: ', values);
     try {
       const res = await login(values);
       if (res.code === 200) {
-        console.log(res);
+        if (getJwtFromLocalstorage()) {
+          removeJwtFromLocalstorage();
+        }
+        setJwtToLocalstorage(res.data.accessToken);
         message.success('登录成功');
+        history.push('/');
       }
     } catch (error) {
       console.log(error);

@@ -1,39 +1,31 @@
-// import React from 'react';
-// import { BasicLayoutProps, MenuDataItem } from '@ant-design/pro-layout';
+import React from 'react';
 // import { history, getIntl, getLocale, request, Link, useAccess } from 'umi';
-// import type { LayoutConfig, ILayoutRuntimeConfig } from '@@/plugin-layout/layout/types/interface';
+import type {
+  LayoutConfig,
+  ILayoutRuntimeConfig,
+} from '@@/plugin-layout/layout/types/interface';
 // import getAccess from '@/access';
 
 import RightContent from '@/components/right-content';
 import sortBy from 'lodash-es/sortBy';
-import { title } from '~/config/_vars.ts';
+import { title, prefixCls } from '~/config/_vars.ts';
 import Logo from '@/components/logo';
 import { Link } from 'umi';
-// import LogoRender from './components/logo/logo';
-// import Ccpass from './components/ccpass/ccpass';
-// import Right from './components/right/index';
+import { Menu } from 'antd';
+import { BasicLayoutProps, MenuDataItem } from '@ant-design/pro-layout';
+import {
+  DesktopOutlined,
+  LineChartOutlined,
+  AuditOutlined,
+} from '@ant-design/icons';
 
-// import { prefixCls } from '~/config/_vars';
-// import { DEFAULT_TITLE_KEY } from '~/config/_vars';
+const IconMap: any = {
+  DesktopOutlined: <DesktopOutlined />,
+  LineChartOutlined: <LineChartOutlined />,
+  AuditOutlined: <AuditOutlined />,
+};
 
 const logoTitle: string = title.charAt(0).toUpperCase() + title.slice(1);
-
-// // 对接insight 菜单 start
-// // GO_INSIGHT_MENU_KEY 菜单key值
-// // GO_INSIGHT_MENU_INIT_PATH 菜单初始化path，该字段需要有初始值否则菜单展示不出来
-// const GO_INSIGHT_MENU_KEY = 'insight-analysis';
-// const GO_INSIGHT_MENU_NAME = 'insightAnalysis';
-// const GO_INSIGHT_MENU_INIT_PATH = 'init_path';
-// const INSIGHT_MENU_ACCESS = 'menu:analysis:insight';
-// const ANALYSIS_KEY = '/statistical-analysis';
-
-// const goInsightAction = () => {
-//     request('/insight', { method: 'GET' }).then((res) => {
-//         if (res && res.code === 200 && res.data && res.data.insightHref) {
-//             window.open(res.data.insightHref);
-//         }
-//     });
-// };
 
 // // 对接insight 菜单 end
 
@@ -205,85 +197,105 @@ const logoTitle: string = title.charAt(0).toUpperCase() + title.slice(1);
 //     }
 // }
 
-import React from 'react';
-import {
-  BasicLayoutProps,
-  Settings as LayoutSettings,
-} from '@ant-design/pro-layout';
+// {
+//   "fixSiderbar": true,
+//   "layout": "mix",
+//   "splitMenus": true,
+//   "navTheme": "light",
+//   "contentWidth": "Fluid",
+//   "colorPrimary": "#1890ff",
+//   "fixedHeader": true,
+//   "siderMenuType": "group"
+// }
+export const layout: LayoutConfig & BasicLayoutProps = {
+  // @ts-ignore
+  logo: <Logo />,
+  title: logoTitle,
+  layout: 'mix',
+  splitMenus: true,
+  fixedHeader: true,
+  prefixCls: `${prefixCls}-pro`,
+  navTheme: 'light',
+  enableDarkTheme: false,
+  colorPrimary: '#1890ff',
+  siderMenuType: 'group',
+  menuProps: {
+    // disabled: true,
+    theme: 'light',
+  },
+  patchMenus: (
+    menuItems: MenuDataItem[],
+    { initialState }: any,
+  ): MenuDataItem[] => {
+    let accessibleItems = getAccessibleMenuItems(menuItems);
+    console.log('initialState', initialState);
 
-export const layout = ({
-  initialState,
-}: {
-  initialState: { settings?: LayoutSettings; currentUser?: API.CurrentUser };
-}): BasicLayoutProps => {
-  return {
-    title: logoTitle,
-    // title: <div style={{paddingRight:'40px'}}>{logoTitle}</div>,
-    layout: 'top',
-    fixedHeader: true,
-    logo: <Logo />,
-    patchMenus: (
-      menuItems: MenuDataItem[],
-      { initialState }: any,
-    ): MenuDataItem[] => {
-      let accessibleItems = getAccessibleMenuItems(menuItems);
-      console.log('initialState', initialState);
-
-      console.log('accessibleItems', accessibleItems);
-      let sorted = sortRoutes(accessibleItems);
-      console.log('sorted', sorted);
-      return sorted;
-      // 控制伊利的dashboard工作台页面是否显示菜单，配合pages/index.ts文件的getFirstMenu实现默认显示
-      // const dashBoardSwitch = initialState?.dashBoardSwitch === 'YES';
-      // const idx = menuItems.findIndex((i) => i.key === '/workbench-dashboard');
-      // const idx1 = menuItems.findIndex((i) => i.key === '/workbench');
-      // if (idx !== -1) {
-      //     menuItems[idx].hideInMenu = !dashBoardSwitch;
-      // }
-      // if (idx1 !== -1 && !menuItems[idx1].hideInMenu) {
-      //     // workbench 与 workbench-dashboard 目前关系为互斥
-      //     menuItems[idx1].hideInMenu = dashBoardSwitch;
-      // }
-      /** 二级菜单后端判断是否返回 */
-      // const rpaSwitch = initialState?.sysCompany?.rpaType === 'third';
-      // const idx2 = menuItems.findIndex((i) => i.key === '/rpa-robot');
-      // if (idx2 !== -1) {
-      //     const idx3 = menuItems[idx2].children.findIndex((i) => i.key === '/rpa-robot/pull-groups/list');
-      //     if (idx3 != -1) {
-      //         menuItems[idx2].children[idx3].hideInMenu = rpaSwitch;
-      //     }
-      // }
-      // const access = getAccess(initialState);
-      // let accessibleItems = getAccessibleMenuItems(menuItems, access);
-      // let sorted = sortRoutes(accessibleItems);
-      // return sorted;
-    },
-    rightContentRender: () => <RightContent />,
-    // footerRender: () => <div>底部内容区</div>,
-    // headerContentRender: () => <div>头部内容区</div>,
-    // onPageChange: () => {
-    //   const { currentUser } = initialState;
-    //   const { location } = history;
-    //   // 如果没有登录，重定向到 login
-    //   if (!currentUser && location.pathname !== '/user/login') {
-    //     history.push('/user/login');
-    //   }
-    // },
-    // menuHeaderRender: () => 'menuHeaderRender',
-    menuItemRender: (menuItemProps: any, defaultDom: any) => {
-      console.log('menuItemProps', menuItemProps);
-
-      if (menuItemProps.isUrl || menuItemProps.routes) {
-        return defaultDom;
-      }
-      if (menuItemProps.path && location.pathname !== menuItemProps.path) {
-        return <Link to={menuItemProps.path}>{defaultDom}</Link>;
-      }
-
-      return defaultDom;
-    },
-    ...initialState?.settings,
-  };
+    console.log('accessibleItems', accessibleItems);
+    let sorted = sortRoutes(accessibleItems);
+    console.log('sorted', sorted);
+    return sorted;
+    // 控制伊利的dashboard工作台页面是否显示菜单，配合pages/index.ts文件的getFirstMenu实现默认显示
+    // const dashBoardSwitch = initialState?.dashBoardSwitch === 'YES';
+    // const idx = menuItems.findIndex((i) => i.key === '/workbench-dashboard');
+    // const idx1 = menuItems.findIndex((i) => i.key === '/workbench');
+    // if (idx !== -1) {
+    //     menuItems[idx].hideInMenu = !dashBoardSwitch;
+    // }
+    // if (idx1 !== -1 && !menuItems[idx1].hideInMenu) {
+    //     // workbench 与 workbench-dashboard 目前关系为互斥
+    //     menuItems[idx1].hideInMenu = dashBoardSwitch;
+    // }
+    /** 二级菜单后端判断是否返回 */
+    // const rpaSwitch = initialState?.sysCompany?.rpaType === 'third';
+    // const idx2 = menuItems.findIndex((i) => i.key === '/rpa-robot');
+    // if (idx2 !== -1) {
+    //     const idx3 = menuItems[idx2].children.findIndex((i) => i.key === '/rpa-robot/pull-groups/list');
+    //     if (idx3 != -1) {
+    //         menuItems[idx2].children[idx3].hideInMenu = rpaSwitch;
+    //     }
+    // }
+    // const access = getAccess(initialState);
+    // let accessibleItems = getAccessibleMenuItems(menuItems, access);
+    // let sorted = sortRoutes(accessibleItems);
+    // return sorted;
+  },
+  rightContentRender: () => <RightContent />,
+  // footerRender: () => <div>底部内容区</div>,
+  // headerContentRender: () => <div>头部内容区</div>,
+  // onPageChange: () => {
+  //   const { currentUser } = initialState;
+  //   const { location } = history;
+  //   // 如果没有登录，重定向到 login
+  //   if (!currentUser && location.pathname !== '/user/login') {
+  //     history.push('/user/login');
+  //   }
+  // },
+  // menuHeaderRender: () => 'menuHeaderRender',
+  // menuRender: (menuItemProps: any, defaultDom: any) => {
+  //   console.log('menuItemProps', menuItemProps);
+  //   return <>3456787654</>
+  // },
+  pageTitleRender: () => 'pageTitleRender',
+  menuItemRender: (menuItemProps: any, defaultDom: any) => {
+    return (
+      <div>
+        <span style={{ marginRight: '4px' }}>
+          {menuItemProps.menu.icon ? IconMap[menuItemProps.menu.icon] : ''}
+        </span>
+        <Link to={menuItemProps.path}>{menuItemProps.menu.name}</Link>
+      </div>
+    );
+  },
+  subMenuItemRender: (itemProps: MenuDataItem) => {
+    return (
+      <div>
+        <span style={{ marginRight: '4px' }}>
+          {itemProps.menu.icon ? IconMap[itemProps.menu.icon] : ''}
+        </span>
+        <Link to={itemProps.path}>{itemProps.menu.name}</Link>
+      </div>
+    );
+  },
 };
 
 function sortRoutes(routes: MenuDataItem[]) {

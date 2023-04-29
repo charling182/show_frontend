@@ -68,9 +68,6 @@ const Login = (props: IRouteComponentProps) => {
   };
 
   useEffect(() => {
-    getTestData().then((res) => {
-      console.log('getTestData', res);
-    });
     // 如果路由中带有code参数则认为是github登录中，显示github Icon
     let { code } = qs.parse(window.location.search?.replace(/^\?/, ''));
     if (shapeShifterRef.current) {
@@ -117,12 +114,10 @@ const Login = (props: IRouteComponentProps) => {
   );
 };
 
-// Login.menu = {
-//     name: 'attract',
-//     icon: 'QrcodeOutlined',
-// };
-
-// Login.order = 1;
-// Login.access = 'root:referralTraffic';
-
+Login.layout = {
+  hideMenu: true, // 自动隐藏页面菜单栏
+  hideNav: true, // 自动隐藏页面顶部导航条
+  hideFooter: true, // 自动隐藏页面底部footer
+  // 如果把三个都设置为true，可以实现“无布局”效果，在实现login等全屏页面时非常有用
+};
 export default Login;

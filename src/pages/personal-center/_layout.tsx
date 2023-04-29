@@ -6,6 +6,12 @@ import { Form, Input, Button, Menu } from 'antd';
 // import { validatePhone } from '@/utils/validate-rule-el-form';
 import styles from './index.less';
 import { Link, Switch, Route, history } from 'umi';
+import {
+  ChromeFilled,
+  CrownFilled,
+  SmileFilled,
+  TabletFilled,
+} from '@ant-design/icons';
 // import Test from './test/_layout';
 // import Test2 from './test-2';
 
@@ -82,13 +88,13 @@ const BaseSetting = (props) => {
   return (
     <div>
       person页面6666
-      <Menu
+      {/* <Menu
         style={{ width: '200px' }}
         onClick={onClick}
         selectedKeys={[current]}
         mode="vertical"
         items={items}
-      />
+      /> */}
       {props.children}
       {/* <Switch>
         <Route path="/personal-center/test" component={Test} />
@@ -158,7 +164,12 @@ const BaseSetting = (props) => {
   // );
 };
 BaseSetting.menu = {
-  name: 'attract',
-  // icon: 'QrcodeOutlined',
+  name: '用户中心',
+  icon: 'AuditOutlined',
 };
+// BaseSetting.layout = {
+//     name: '个人中心',
+//     icon: <CrownFilled />,
+// }
+// BaseSetting.icon = <CrownFilled />;
 export default BaseSetting;
