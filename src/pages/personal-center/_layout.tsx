@@ -15,25 +15,6 @@ import {
 // import Test from './test/_layout';
 // import Test2 from './test-2';
 
-const items = [
-  {
-    label: 'Navigation One',
-    key: 'mail',
-    // icon: <MailOutlined />,
-  },
-  {
-    label: 'Navigation Two',
-    key: 'app',
-    // icon: <AppstoreOutlined />,
-    disabled: true,
-  },
-  {
-    label: 'Navigation Three - Submenu',
-    key: 'SubMenu',
-    // icon: <SettingOutlined />,
-  },
-];
-
 const { Item } = Form;
 
 const BaseSetting = (props) => {
