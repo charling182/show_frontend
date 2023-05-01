@@ -5,6 +5,7 @@ import { defineConfig } from 'umi';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 export default defineConfig({
+  // 代码会被分割为如下几个 chunk：'antdesign'、'antv'、'antd'、'rc'、'react'、'lodash'、'moment'、'vendors'、'udesk' 和 'umi'，它们会被分别打包成独立的文件。
   chunks:
     process.env.NODE_ENV === 'production'
       ? [
@@ -27,17 +28,17 @@ export default defineConfig({
           config.plugin('clean').before('copy').use(new CleanWebpackPlugin({})); // 清除webpack输出目录下的历史文件
           config.merge({
             optimization: {
-              minimize: true,
+              minimize: true, // 当将其设置为true时，webpack将尝试最小化输出文件的体积，此选项一般在生产环境中启用
               splitChunks: {
-                chunks: 'async',
-                minSize: 30000,
+                chunks: 'async', // 配置告诉 webpack 只对动态代码（通过 import() 导入的模块）进行代码分割，而不是对所有模块都进行分割。这样可以避免把所有代码都打进同一个文件
+                minSize: 30000, // webpack 拆分的 chunk 的最小大小（以 bytes 为单位）,一般建议设置成适当的值来避免过多的网络请求
                 minChunks: 1,
                 automaticNameDelimiter: '.',
                 cacheGroups: {
                   charlingantdesigns: {
                     name: 'antdesign',
-                    chunks: 'all',
-                    test: /[\\/]node_modules[\\/](@ant-design)/,
+                    chunks: 'all', // 配置意味着在模块的所有块中寻找共享模块，并提取到一个新的共享块中。
+                    test: /[\\/]node_modules[\\/](@ant-design)/, // 它匹配包含 "@ant-design" 的路径字符串，用于将这些路径下的模块打包到名为 "antdesign" 的 chunk 中
                     priority: 10,
                   },
                   charlingantd: {
