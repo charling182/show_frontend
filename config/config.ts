@@ -5,7 +5,7 @@ import proxy from './proxy.config';
 import plugin from './plugin.config';
 import theme from './theme.config';
 import scripts from './scripts.config';
-// import chainWebpack from './chainWebpack.config';
+import chainWebpack from './chainWebpack.config';
 
 /**
  * 项目输出路径。优先使用build项目路径，如果没有，则使用本项目的dist目录
@@ -49,7 +49,7 @@ export default [
   proxy, // 配置开发阶段的代理
   plugin, // 插件相关配置
   theme, // 配置主题，实际上是配 less 变量
-  // chainWebpack, // 修改 webpack 配置。
+  chainWebpack, // 修改 webpack 配置。
   scripts, // 配置静态脚本
 ].reduce(
   (previous, current) => ({ ...previous, ...current } as typeof defaultConfig),
