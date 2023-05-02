@@ -17,12 +17,14 @@ import {
   DesktopOutlined,
   LineChartOutlined,
   AuditOutlined,
+  LayoutOutlined,
 } from '@ant-design/icons';
 
 const IconMap: any = {
   DesktopOutlined: <DesktopOutlined />,
   LineChartOutlined: <LineChartOutlined />,
   AuditOutlined: <AuditOutlined />,
+  LayoutOutlined: <LayoutOutlined />,
 };
 
 const logoTitle: string = title.charAt(0).toUpperCase() + title.slice(1);

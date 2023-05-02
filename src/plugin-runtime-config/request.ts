@@ -137,11 +137,12 @@ export const request: RequestConfig = {
   requestInterceptors: [handleRequestInterceptors],
   responseInterceptors: [
     (response, options: RequestOptionsInit & RequestOptionsExtra) => {
+      // 如果是401且不是在登录页，则跳转到登录页
       if (response.status === 401 && history.location.pathname !== `/login`) {
-        if (getJwtFromLocalstorage()) {
-          removeJwtFromLocalstorage();
-        }
-        history.push('/login');
+        // if (getJwtFromLocalstorage()) {
+        //   removeJwtFromLocalstorage();
+        // }
+        // history.push('/login');
       }
       if (response.ok && options.successMessage) {
         // message.success(options.successMessage);

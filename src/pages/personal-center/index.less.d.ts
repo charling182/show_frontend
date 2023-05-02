@@ -1,4 +1,5 @@
 export type Styles = {
+  'personal-center': string;
   'base-setting': string;
   'wrap-form': string;
   'wrap-photo': string;

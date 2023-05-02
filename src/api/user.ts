@@ -78,3 +78,21 @@ export async function putChangePassword(data: types.user.changePasswordData) {
     },
   });
 }
+/**
+ * 修改用户信息接口
+ */
+export async function putChangeUserData(data: types.user.changeUserData) {
+  return request('/user', {
+    method: 'put',
+    data,
+  });
+}
+/**
+ * 获取用户列表
+ */
+export async function getUserList(params: types.user.userListParams) {
+  return request('/user/list', {
+    method: 'get',
+    params,
+  });
+}

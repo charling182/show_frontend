@@ -1,5 +1,6 @@
 import React from 'react';
 import { user } from './user';
+import { department } from './department';
 import type { ErrorShowType } from 'umi';
 declare global {
   namespace types {
@@ -17,6 +18,7 @@ declare global {
       [k: string]: any;
     };
     export { user };
+    export { department };
 
     export interface ErrorInfoStructure {
       /**

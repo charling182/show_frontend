@@ -18,4 +18,25 @@ export namespace user {
     confirm_password: string;
     code: string;
   }
+  // 修改用户信息表单数据声明
+  interface changeUserData {
+    id: number;
+    nickname: string;
+    phone: string;
+    company: string;
+    city: string;
+  }
+  // 用户列表数据声明
+  interface userListParams {
+    keyword?: string;
+    state?: number;
+    department_id?: number;
+    limit?: number;
+    offset?: number;
+    username?: string;
+    phone?: string;
+    email?: string;
+    date_after_created?: string;
+    status?: number;
+  }
 }

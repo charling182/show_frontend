@@ -1,0 +1,53 @@
+.user-info-dialog {
+  .title-dialog {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .content {
+    font-size: 14px;
+    // color: $colorLight;
+    .wrap-user {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .user-avatar {
+        margin-top: 10px;
+      }
+      .username {
+        line-height: 80px;
+        font-size: 16px;
+        // color: $colorLight3;
+      }
+    }
+    .wrap-info {
+      .tip {
+        display: flex;
+        align-items: center;
+        height: 20px;
+        margin-bottom: 20px;
+        .el-icon-suitcase {
+          margin-right: 10px;
+          font-size: 16px;
+        }
+        .line {
+          flex: 1;
+          height: 1px;
+          background-color: $colorE8;
+          margin-left: 10px;
+        }
+      }
+      .item-info {
+        display: flex;
+        line-height: 50px;
+        .title {
+          width: 80px;
+        }
+        .value {
+          // color: $colorLight3;
+        }
+      }
+    }
+  }
+}

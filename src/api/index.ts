@@ -4,6 +4,7 @@
 import { request } from 'umi';
 import { encryptedData } from '@/utils/encrypt';
 export * from './user';
+export * from './department';
 
 // /**
 //  * 后端接口地址的前缀。

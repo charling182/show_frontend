@@ -4,8 +4,8 @@ import { UserOutlined, LockOutlined, GithubOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import { title } from '~/config/_vars';
 import { If } from 'tsx-control-statements/components';
-import { login } from '@/api';
-import { history } from 'umi';
+import { login, getUserInfo } from '@/api';
+import { history, useModel } from 'umi';
 import {
   setJwtToLocalstorage,
   removeJwtFromLocalstorage,
@@ -24,6 +24,7 @@ interface LoginFormProps {
 }
 
 const LoginForm = (props: LoginFormProps) => {
+  const { setInitialState } = useModel('@@initialState');
   const { setStatus } = props;
   const [loading, setLoading] = useState<boolean>(false);
   const logoTitle: string = title.charAt(0).toUpperCase() + title.slice(1);
@@ -34,7 +35,14 @@ const LoginForm = (props: LoginFormProps) => {
         if (getJwtFromLocalstorage()) {
           removeJwtFromLocalstorage();
         }
+        // 设置初始化数据
         setJwtToLocalstorage(res.data.accessToken);
+        const userInfo = await getUserInfo();
+        if (userInfo.code === 200) {
+          setInitialState({
+            ...userInfo.data,
+          });
+        }
         message.success('登录成功');
         history.push('/');
       }
