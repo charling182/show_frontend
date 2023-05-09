@@ -1,7 +1,7 @@
 export type Styles = {
-  'github-path': string;
-  'iconfont': string;
-}
+    'github-path': string;
+    iconfont: string;
+};
 
 export type ClassNames = keyof Styles;
 

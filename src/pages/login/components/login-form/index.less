@@ -1,52 +1,52 @@
 .login-form {
-  position: relative;
-  max-width: 100%;
-  min-height: 400px;
-  margin: calc((100vh - 425px) / 2) 10% 10%;
-  overflow: hidden;
-  padding-bottom: 30px;
-  opacity: 0.8;
-  .title {
-    font-size: 54px;
-    font-weight: 500;
-    color: rgba(14, 18, 26, 1);
-    user-select: none;
-    margin-bottom: 40px;
-  }
-  .router-link-box {
-    margin-top: 20px;
-    & span {
-      cursor: pointer;
-      color: #000;
+    position: relative;
+    max-width: 100%;
+    min-height: 400px;
+    margin: calc((100vh - 425px) / 2) 10% 10%;
+    padding-bottom: 30px;
+    overflow: hidden;
+    opacity: 0.8;
+    .title {
+        margin-bottom: 40px;
+        color: rgba(14, 18, 26, 1);
+        font-weight: 500;
+        font-size: 54px;
+        user-select: none;
     }
-  }
-  .wrap-login-btn {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    .github-button {
-      margin-left: 8px;
+    .router-link-box {
+        margin-top: 20px;
+        & span {
+            color: #000;
+            cursor: pointer;
+        }
     }
-    .btn-special {
-      display: inline-block;
-      width: 220px;
-      height: 60px;
-      margin-top: 5px;
-      border: 0;
-      background: #1890ff;
-      color: #000 !important;
-      .github-btn-text {
+    .wrap-login-btn {
         display: flex;
         align-items: center;
-        justify-content: center;
-        .iconfont {
-          margin-right: 4px;
+        justify-content: space-between;
+        .github-button {
+            margin-left: 8px;
         }
-      }
+        .btn-special {
+            display: inline-block;
+            width: 220px;
+            height: 60px;
+            margin-top: 5px;
+            color: #000 !important;
+            background: #1890ff;
+            border: 0;
+            .github-btn-text {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                .iconfont {
+                    margin-right: 4px;
+                }
+            }
 
-      &:hover {
-        opacity: 0.9;
-      }
+            &:hover {
+                opacity: 0.9;
+            }
+        }
     }
-  }
 }

@@ -1,10 +1,15 @@
 // import { message } from 'udesk-ui';
 // import { handleError } from '../utils';
 // import { IHttpPromise } from './type';
-import { request } from 'umi';
-import { encryptedData } from '@/utils/encrypt';
+// import { request } from 'umi';
+// import { encryptedData } from '@/utils/encrypt';
 export * from './user';
 export * from './department';
+export * from './role';
+export * from './menu';
+export * from './permission';
+export * from './project';
+export * from './upload';
 
 // /**
 //  * 后端接口地址的前缀。

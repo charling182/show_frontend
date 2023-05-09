@@ -1,5 +1,5 @@
+import React from 'react';
 import { layout } from './app-config';
-import { history } from 'umi';
 import './plugin-runtime-config/react-placeholder';
 
 /**
@@ -13,17 +13,17 @@ import './plugin-runtime-config/react-placeholder';
  */
 
 interface IRouterComponentProps {
-  routes: types.IRoute[];
-  plugin: Plugin;
-  history: any;
-  ssrProps?: object;
-  defaultTitle?: string;
-  dynamicImport?: boolean;
-  isServer?: boolean;
+    routes: types.IRoute[];
+    plugin: Plugin;
+    history: any;
+    ssrProps?: object;
+    defaultTitle?: string;
+    dynamicImport?: boolean;
+    isServer?: boolean;
 }
 interface IOpts extends IRouterComponentProps {
-  rootElement?: string | HTMLElement;
-  callback?: () => void;
+    rootElement?: string | HTMLElement;
+    callback?: () => void;
 }
 
 // 修改路由
@@ -37,45 +37,39 @@ interface IOpts extends IRouterComponentProps {
 //     return args.routes;
 // }
 export function patchRoutes(args: { routes: types.IRoute[] }) {
-  // 隐藏导航栏、菜单栏、底部栏
-  // const onlyShowMain = history.location.query?.onlyShowMain;
-  // if (onlyShowMain && onlyShowMain === 'true') {
-  //     layout.pure = true;
-  //     sessionStorage.setItem('only-show-main', 'true');
-  // }
-  // let routes = [...args.routes];
+    // 隐藏导航栏、菜单栏、底部栏
+    // const onlyShowMain = history.location.query?.onlyShowMain;
+    // if (onlyShowMain && onlyShowMain === 'true') {
+    //     layout.pure = true;
+    //     sessionStorage.setItem('only-show-main', 'true');
+    // }
+    // let routes = [...args.routes];
 
-  // routes = routes.map((route) => {
-  //   let test = { ...route };
-  //   test.routes = test.routes.map((item) => {
-  //     let testChildren = { ...item };
-  //     if (testChildren.path === '/personal-center') {
-  //       testChildren.routes = testChildren.routes.filter((item) => {
-  //         return item.path !== '/personal-center/test';
-  //       });
-  //     }
-  //     return testChildren;
-  //   });
-  //   return test;
-  // });
-  console.log('patchRoutes', args.routes);
+    // routes = routes.map((route) => {
+    //   let test = { ...route };
+    //   test.routes = test.routes.map((item) => {
+    //     let testChildren = { ...item };
+    //     if (testChildren.path === '/personal-center') {
+    //       testChildren.routes = testChildren.routes.filter((item) => {
+    //         return item.path !== '/personal-center/test';
+    //       });
+    //     }
+    //     return testChildren;
+    //   });
+    //   return test;
+    // });
+    console.log('patchRoutes', args.routes);
 
-  return args.routes;
+    return args.routes;
 }
 
 export function onRouteChange({ location, routes, action }) {
-  console.log(
-    'onRouteChange',
-    location,
-    routes,
-    action,
-    location === '/personal-center/test-2',
-  );
-  if (location.pathname === '/personal-center/test-2') {
-    console.log('进入');
+    console.log('onRouteChange', location, routes, action, location === '/personal-center/test-2');
+    if (location.pathname === '/personal-center/test-2') {
+        console.log('进入');
 
-    history.push('/404');
-  }
+        history.push('/404');
+    }
 }
 // export function onRouteUpdate({ location, routes, action }) {
 //   console.log('onRouteUpdate', location, routes, action, location === '/personal-center/test-2');
@@ -83,14 +77,14 @@ export function onRouteChange({ location, routes, action }) {
 // }
 
 export function render(oldRender) {
-  console.log('render', oldRender());
-  // fetch('/api/auth').then(auth => {
-  //   if (auth.isLogin) { oldRender() }
-  //   else {
-  //     history.push('/login');
-  //     oldRender()
-  //   }
-  // });
+    console.log('render', oldRender());
+    // fetch('/api/auth').then(auth => {
+    //   if (auth.isLogin) { oldRender() }
+    //   else {
+    //     history.push('/login');
+    //     oldRender()
+    //   }
+    // });
 }
 
 // umi 插件运行时配置

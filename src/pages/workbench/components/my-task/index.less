@@ -1,0 +1,60 @@
+.my-task {
+    background-color: #fff;
+
+    .head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 60px;
+        padding: 0 20px;
+        border-bottom: 1px solid #e8e8e8;
+
+        .title {
+            font-size: 16px;
+        }
+    }
+
+    .wrap-nav {
+        padding: 0 20px;
+
+        & i {
+            margin-right: 5px;
+            font-size: 14px;
+        }
+    }
+
+    .wrap-task-list {
+        height: 500px;
+        padding: 0 20px;
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 48px;
+            border-bottom: 1px solid #e8e8e8;
+
+            .task-name {
+                flex: 1;
+                padding: 0 10px;
+                color: #1b9aee;
+                cursor: pointer;
+            }
+            .project-name {
+                width: 100px;
+                color: rgba(0, 0, 0, 0.45);
+                cursor: pointer;
+
+                &:hover {
+                    color: #1b9aee;
+                }
+            }
+        }
+    }
+
+    .wrap-pagination {
+        height: 32px;
+        margin-top: 20px;
+        padding-bottom: 20px;
+    }
+}

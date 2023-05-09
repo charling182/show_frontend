@@ -1,5 +1,5 @@
 export type Styles = {
-  'basic-layout': string;
+    'basic-layout': string;
 };
 
 export type ClassNames = keyof Styles;

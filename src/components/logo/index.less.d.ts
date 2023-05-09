@@ -1,5 +1,5 @@
 export type Styles = {
-  'logo-img': string;
+    'logo-img': string;
 };
 
 export type ClassNames = keyof Styles;

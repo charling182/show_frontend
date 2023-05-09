@@ -21,37 +21,34 @@ const OUTPUT_PATH = '../show_frontend_build/dist';
  * 所以先自己手动导入，等官方支持后再按照规则定义子文件
  */
 const defaultConfig = defineConfig({
-  // 配置是否让生成的文件包含 hash 后缀，通常用于增量发布和避免浏览器加载缓存
-  hash: true,
-  // 指定输出路径
-  outputPath: OUTPUT_PATH,
-  // mfsu 是一种基于 webpack5 新特性 Module Federation 的打包提速方案   https://umijs.org/zh-CN/docs/mfsu
-  mfsu: {},
-  // webpack5 是一种基于 webpack5 新特性的打包提速方案   https://umijs.org/zh-CN/docs/webpack5
-  webpack5: {},
-  // 配置额外的 umi 插件
-  dynamicImport: {
-    loading: '@/components/page-loading/index',
-  },
-  // 配置额外的 link 标签
-  links: [
-    {
-      rel: 'stylesheet',
-      href: `/static/css/nprogress-0.2.0.css`,
+    // 配置是否让生成的文件包含 hash 后缀，通常用于增量发布和避免浏览器加载缓存
+    hash: true,
+    // 指定输出路径
+    outputPath: OUTPUT_PATH,
+    // mfsu 是一种基于 webpack5 新特性 Module Federation 的打包提速方案   https://umijs.org/zh-CN/docs/mfsu
+    mfsu: {},
+    // webpack5 是一种基于 webpack5 新特性的打包提速方案   https://umijs.org/zh-CN/docs/webpack5
+    webpack5: {},
+    // 配置额外的 umi 插件
+    dynamicImport: {
+        loading: '@/components/page-loading/index',
     },
-  ],
+    // 配置额外的 link 标签
+    links: [
+        {
+            rel: 'stylesheet',
+            href: `/static/css/nprogress-0.2.0.css`,
+        },
+    ],
 });
 
 export default [
-  defaultConfig,
-  alias, // 配置别名，对引用路径进行映射。
-  extraBabelPlugins, // 配置额外的 babel 插件。
-  proxy, // 配置开发阶段的代理
-  plugin, // 插件相关配置
-  theme, // 配置主题，实际上是配 less 变量
-  chainWebpack, // 修改 webpack 配置。
-  scripts, // 配置静态脚本
-].reduce(
-  (previous, current) => ({ ...previous, ...current } as typeof defaultConfig),
-  {},
-);
+    defaultConfig,
+    alias, // 配置别名，对引用路径进行映射。
+    extraBabelPlugins, // 配置额外的 babel 插件。
+    proxy, // 配置开发阶段的代理
+    plugin, // 插件相关配置
+    theme, // 配置主题，实际上是配 less 变量
+    chainWebpack, // 修改 webpack 配置。
+    scripts, // 配置静态脚本
+].reduce((previous, current) => ({ ...previous, ...current } as typeof defaultConfig), {});

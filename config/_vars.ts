@@ -18,3 +18,5 @@ export const prefixCls = 'charling';
 export const tokenName: string = 'Authorization';
 //token在localStorage、sessionStorage、cookie存储的key的名称
 export const tokenTableName = 'vue-beehive';
+// socket地址
+export const socketUrl = 'http://127.0.0.1:7001';

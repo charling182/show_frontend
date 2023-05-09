@@ -1,58 +1,58 @@
 .departmentManagement-container {
-  display: flex;
-  width: 1100px;
-  margin: 0 auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 2px;
-  margin-top: 20px;
+    display: flex;
+    width: 1100px;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 2px;
 
-  .wrap-nav {
-    width: 247px;
-    border-right: 1px solid #e8e8e8;
-    .title-box {
-      display: block;
-      padding: 20px 0px 10px 0px;
-      color: rgba(0, 0, 0, 0.45);
-    }
-    .warp-member {
-      height: 175px;
-    }
-    .item-member {
-      height: 40px;
-      margin-top: 4px;
-      overflow: hidden;
-      padding-left: 10px;
-      font-size: 14px;
-      line-height: 40px;
-      color: #333;
-      cursor: pointer;
+    .wrap-nav {
+        width: 247px;
+        border-right: 1px solid #e8e8e8;
+        .title-box {
+            display: block;
+            padding: 20px 0px 10px 0px;
+            color: rgba(0, 0, 0, 0.45);
+        }
+        .warp-member {
+            height: 175px;
+        }
+        .item-member {
+            height: 40px;
+            margin-top: 4px;
+            padding-left: 10px;
+            overflow: hidden;
+            color: #333;
+            font-size: 14px;
+            line-height: 40px;
+            cursor: pointer;
 
-      .item-member-icon {
-        font-size: 20px;
-      }
+            .item-member-icon {
+                font-size: 20px;
+            }
 
-      .title {
-        padding-left: 12px;
-      }
-    }
-    .item-member:hover {
-      color: #1890ff;
+            .title {
+                padding-left: 12px;
+            }
+        }
+        .item-member:hover {
+            color: #1890ff;
+        }
+
+        .item-member-active {
+            color: #1890ff;
+            background-color: #e6f7ff;
+            border-right: 3px solid #1890ff;
+        }
+
+        .warp-menu {
+            height: calc(100vh - 460px);
+        }
     }
 
-    .item-member-active {
-      background-color: #e6f7ff;
-      border-right: 3px solid #1890ff;
-      color: #1890ff;
+    .wrap-content {
+        flex: 1;
+        padding-left: 24px;
     }
-
-    .warp-menu {
-      height: calc(100vh - 460px);
-    }
-  }
-
-  .wrap-content {
-    flex: 1;
-    padding-left: 24px;
-  }
 }

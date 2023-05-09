@@ -1,6 +1,6 @@
 export type Styles = {
-  'register-form': string;
-  'router-link-box': string;
+    'register-form': string;
+    'router-link-box': string;
 };
 
 export type ClassNames = keyof Styles;

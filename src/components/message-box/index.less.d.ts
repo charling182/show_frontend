@@ -1,9 +1,9 @@
 export type Styles = {
-  'message-box': string;
-  'wrap-pane': string;
-  'no-message-tip': string;
-  'iconfont': string;
-}
+    'message-box': string;
+    'wrap-pane': string;
+    'no-message-tip': string;
+    iconfont: string;
+};
 
 export type ClassNames = keyof Styles;
 

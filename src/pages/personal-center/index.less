@@ -1,48 +1,49 @@
 .personal-center {
-  background-color: #fff;
-  width: 1000px;
-  padding: 40px;
-  margin: 40px auto;
-  .base-setting {
-    position: relative;
-    height: 360px;
+    width: 1000px;
+    margin: 40px auto;
+    padding: 40px;
+    background-color: #fff;
 
-    .wrap-form {
-      width: 60%;
+    .base-setting {
+        position: relative;
+        height: 360px;
+
+        .wrap-form {
+            width: 60%;
+        }
+
+        .wrap-photo {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            width: 180px;
+            height: 180px;
+            overflow: hidden;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ccc;
+            cursor: pointer;
+
+            & img {
+                width: 100%;
+                height: 100%;
+            }
+
+            .wrap-photo-plus {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                color: #fff;
+                font-size: 46px;
+                transform: translate(-50%, -50%);
+                opacity: 0;
+                transition: 500ms;
+            }
+        }
+
+        .wrap-photo:hover {
+            .wrap-photo-plus {
+                opacity: 1;
+            }
+        }
     }
-
-    .wrap-photo {
-      position: absolute;
-      top: 30px;
-      right: 30px;
-      width: 180px;
-      height: 180px;
-      overflow: hidden;
-      cursor: pointer;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #ccc;
-
-      & img {
-        width: 100%;
-        height: 100%;
-      }
-
-      .wrap-photo-plus {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        font-size: 46px;
-        color: #fff;
-        opacity: 0;
-        transition: 500ms;
-        transform: translate(-50%, -50%);
-      }
-    }
-
-    .wrap-photo:hover {
-      .wrap-photo-plus {
-        opacity: 1;
-      }
-    }
-  }
 }

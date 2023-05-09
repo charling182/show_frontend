@@ -16,12 +16,12 @@ const privateKey = `
  * @returns {Promise<{param: PromiseLike<ArrayBuffer>}|*>}
  */
 export async function encryptedData(data) {
-  let publicKey = '';
-  const res = await getPublicKey();
-  publicKey = res.data.rsa_public_key;
-  const key = new NodeRSA(publicKey);
-  data = key.encrypt(data, 'base64');
-  return data;
+    let publicKey = '';
+    const res = await getPublicKey();
+    publicKey = res.data.rsa_public_key;
+    const key = new NodeRSA(publicKey);
+    data = key.encrypt(data, 'base64');
+    return data;
 }
 
 /**
@@ -30,10 +30,10 @@ export async function encryptedData(data) {
  * @returns {PromiseLike<ArrayBuffer>}
  */
 export function decryptedData(data) {
-  const decrypt = new JSEncrypt();
-  decrypt.setPrivateKey(
-    `-----BEGIN RSA PRIVATE KEY-----${privateKey}-----END RSA PRIVATE KEY-----`,
-  );
-  data = decrypt.decrypt(JSON.stringify(data));
-  return data;
+    const decrypt = new JSEncrypt();
+    decrypt.setPrivateKey(
+        `-----BEGIN RSA PRIVATE KEY-----${privateKey}-----END RSA PRIVATE KEY-----`
+    );
+    data = decrypt.decrypt(JSON.stringify(data));
+    return data;
 }

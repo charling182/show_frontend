@@ -1,8 +1,8 @@
-**/*.md
+node_modules
 **/*.svg
 **/*.ejs
-**/*.html
-package.json
 .umi
 .umi-production
 .umi-test
+**/*.module.scss.d.ts
+**/*.md
