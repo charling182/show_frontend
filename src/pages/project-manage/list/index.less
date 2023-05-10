@@ -1,0 +1,92 @@
+.project-list {
+    position: relative;
+    min-height: 790px;
+    // padding: 20px;
+
+    .create-project {
+        position: absolute;
+        top: 13px;
+        right: 20px;
+    }
+
+    .list {
+        color: rgba(0, 0, 0, 0.45);
+
+        .item-list {
+            display: flex;
+            height: 70px;
+            padding: 10px 0;
+            line-height: 25px;
+            border-bottom: 1px solid #e8e8e8;
+
+            .item-img {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 50px;
+                height: 50px;
+                background-color: #f1f1f1;
+                border-radius: 3px;
+            }
+
+            .item-info {
+                flex: 1;
+                width: 0;
+                margin-left: 10px;
+                line-height: 25px;
+
+                .name {
+                    .name-text {
+                        color: #1890ff;
+                        cursor: pointer;
+                    }
+                }
+
+                .intro {
+                    padding-right: 10px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+            }
+
+            .item-tasks {
+                display: flex;
+                flex: 1;
+                justify-content: flex-end;
+                padding-right: 40px;
+                line-height: 50px;
+                text-align: right;
+
+                .task {
+                    margin-left: 6px;
+                }
+            }
+
+            .item-manager {
+                width: 200px;
+            }
+
+            .item-create-date {
+                width: 120px;
+            }
+
+            .item-progress {
+                width: 200px;
+            }
+
+            .item-control {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                width: 200px;
+            }
+        }
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 16px;
+    }
+}

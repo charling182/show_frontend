@@ -15,6 +15,7 @@ const BtnTooltip = ({
 }) => {
     return (
         <Tooltip
+            trigger={['hover']}
             className={styles['btn-tooltip']}
             title={tooltipContent}
             placement="top"
@@ -22,7 +23,7 @@ const BtnTooltip = ({
         >
             <Button
                 icon={icon}
-                className={btnClass}
+                // className={btnClass}
                 shape={circle ? 'circle' : 'default'}
                 disabled={disabled}
                 onClick={onClick}

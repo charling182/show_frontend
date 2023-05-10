@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useModel, useStore, SocketModelState } from 'umi';
 import { Row, Col, Input, Button, List } from 'antd';
+import styles from './index.less';
 
 const ProjectManage = (props) => {
     const store = useStore();
@@ -42,30 +43,7 @@ const ProjectManage = (props) => {
         };
     }, []);
 
-    return (
-        <>
-            <div style={{ maxWidth: 600, margin: '0 auto' }}>
-                <List
-                    dataSource={chatHistory}
-                    renderItem={(item) => <List.Item>{item}</List.Item>}
-                    style={{ marginBottom: 16 }}
-                />
-                <div style={{ display: 'flex' }}>
-                    <Input
-                        type="text"
-                        value={message}
-                        onChange={(event) => setMessage(event.target.value)}
-                        onPressEnter={handleSendMessage}
-                        style={{ marginRight: 16 }}
-                    />
-                    <Button type="primary" onClick={handleSendMessage}>
-                        发送
-                    </Button>
-                </div>
-            </div>
-            {props.children}
-        </>
-    );
+    return <div className={styles['project-manage']}>{props.children}</div>;
 };
 
 ProjectManage.menu = {

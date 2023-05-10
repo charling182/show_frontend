@@ -15,8 +15,6 @@ export default defineConfig({
     // https://github.com/chimurai/http-proxy-middleware#options
     proxy: {
         '/backend/': proxyObj,
-        // 微信客服相关接口基地址与其他接口不同
-        // '/agent/admin/': proxyObj,
-        '/socket.io': proxyObj,
+        '/public/': proxyObj, // /public是后端生成的上传图片地址,开启代理之后本地就能访问后端的静态资源
     },
 });

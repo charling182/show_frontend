@@ -7,16 +7,18 @@ import GithubPath from '@/components/github-path';
 import MessageBox from '@/components/message-box';
 import UserOperation from '@/components/user-operation';
 import { UserOutlined } from '@ant-design/icons';
+import { useModel } from 'umi';
 
 import styles from './index.less';
 
 const LayoutHeader = () => {
+    const { initialState } = useModel('@@initialState');
     const logoTitle: string = title.charAt(0).toUpperCase() + title.slice(1);
     const accessRoutesTreeNoHidden: any[] = [];
     const [navIndex, setNavIndex] = useState<number>(0);
     const onlineUserIds: any[] = ['1', '2'];
-    const messageCount: number = 3;
-    const userInfo = {};
+    const userInfo = initialState || {};
+    const [messageCount, setMessageCount] = useState<number>(0);
 
     const logoClick = () => {
         // if (this.navIndex !== 0) {
@@ -26,6 +28,9 @@ const LayoutHeader = () => {
     const navClick = (index: number) => {
         // this.navIndex = index;
         // this.$router.push(this.accessRoutesTreeNoHidden[index].path);
+    };
+    const getMessageCount = (count: number) => {
+        setMessageCount(count);
     };
 
     return (
@@ -38,7 +43,7 @@ const LayoutHeader = () => {
                             <IconFont type="duoren" />
                         </Badge>
                     </div>
-                    <MessageBox>
+                    <MessageBox getCount={getMessageCount}>
                         <div className={styles['wrap-message-icon']}>
                             <Badge color="#1890ff" size="small" count={messageCount}>
                                 <IconFont type="xiangling" />
@@ -47,7 +52,7 @@ const LayoutHeader = () => {
                     </MessageBox>
                     <UserOperation>
                         <div className={styles['username']}>
-                            <Avatar size={32} icon={<UserOutlined />} />
+                            <Avatar src={userInfo.avatar} size={32} icon={<UserOutlined />} />
                             <div className={styles['username-text']}>
                                 {userInfo.username ? userInfo.username : '用户姓名'}
                             </div>

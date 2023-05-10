@@ -1,0 +1,62 @@
+.message-management-container {
+    .search-box {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 16px;
+
+        .search-input {
+            width: 300px;
+        }
+    }
+
+    .content-column {
+        display: flex;
+        align-items: center;
+    }
+
+    .content-username {
+        margin: 0 8px 0 4px;
+    }
+
+    .wrap-content {
+        display: flex;
+        align-items: center;
+        min-height: 40px;
+
+        .user-avatar {
+            margin-right: 5px;
+        }
+
+        .username {
+            margin-right: 10px;
+            width: fit-content;
+        }
+
+        .content {
+            flex: 1;
+
+            .project-name,
+            .task-name {
+                color: #1b9aee;
+            }
+
+            .state {
+                padding: 0 5px;
+            }
+
+            .redo {
+                color: #606266;
+            }
+
+            .done {
+                color: #13ce66;
+            }
+        }
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 16px;
+    }
+}

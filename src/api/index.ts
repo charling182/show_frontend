@@ -10,6 +10,8 @@ export * from './menu';
 export * from './permission';
 export * from './project';
 export * from './upload';
+export * from './invite';
+export * from './message';
 
 // /**
 //  * 后端接口地址的前缀。

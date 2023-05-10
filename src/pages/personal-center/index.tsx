@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, message, Upload } from 'antd';
-// import Cropper from '@/components/Cropper';
-// import { useAppSelector } from '@/hooks';
-// import { editUser, UserPermissions } from '@/api/user';
-// import { validatePhone } from '@/utils/validate-rule-el-form';
 import styles from './index.less';
 import { history } from 'umi';
 import { putChangeUserData } from '@/api';
@@ -46,10 +42,9 @@ const BaseSetting = (props) => {
         const { username, email, ...rest }: types.user.changeUserData & IUserInfo = values;
         const res = await putChangeUserData({
             ...rest,
+            avatar: imageUrl,
             id: userInfo.id,
-            nickname: '',
         });
-        // const res = await putChangeUserData({ ...rest, id:userInfo.id});
         if (res.code === 200) {
             message.success('修改成功');
         }
@@ -66,10 +61,8 @@ const BaseSetting = (props) => {
     const handleGetCropBlob = async (blob: any) => {
         handleHideCropper();
     };
-    console.log('person页面6666', props.children);
 
-    // const { imageUrl, onChange } = props;
-    const [imageUrl, setImageUrl] = useState('');
+    const [imageUrl, setImageUrl] = useState<string>(initialState?.avatar || '');
 
     const [loading, setLoading] = useState(false);
 
@@ -97,22 +90,10 @@ const BaseSetting = (props) => {
         formData.append('file', file);
         const { code, data } = await uploadFile(formData);
         setImageUrl(data.path);
-        console.log('code-----', code, data);
+        // setImageUrl(URL.createObjectURL(file));
+        // 设置表单中的 avatar 字段值
+        form.setFieldValue('avatar', data.path);
     };
-
-    // 上传图片
-    function handleChange(info: any) {
-        // console.log('info-----------', info);
-        // if (info.file.status === 'uploading') {
-        //   setLoading(true);
-        //   return;
-        // }
-        // if (info.file.status === 'done') {
-        //   setLoading(false);
-        //   const imageUrl = URL.createObjectURL(info.file.originFileObj);
-        //   // onChange(imageUrl);
-        // }
-    }
 
     const uploadButton = (
         <div>
@@ -173,33 +154,22 @@ const BaseSetting = (props) => {
                         </Item>
                     </Form>
                 </div>
-                <ImgCrop rotationSlider>
-                    <Upload
-                        name="image"
-                        listType="picture-card"
-                        showUploadList={false}
-                        beforeUpload={beforeUpload}
-                        onChange={handleChange}
-                    >
-                        {imageUrl ? (
-                            <img src={imageUrl} alt="image" style={{ width: '100%' }} />
-                        ) : (
-                            uploadButton
-                        )}
-                    </Upload>
-                </ImgCrop>
-                {/* <div className={styles['wrap-photo']}>
-        </div> */}
-
-                {/* <div className={styles['wrap-photo']} onClick={handleShowCropper}>
-          <img src={avatar || userInfo?.avatar} alt="" />
-        </div> */}
-                {/* <Cropper
-          dialogTitle="修改头像"
-          visible={cropperVisible}
-          onClose={handleHideCropper}
-          getCropBlob={handleGetCropBlob}
-        /> */}
+                <div className={styles['wrap-photo']}>
+                    <ImgCrop rotationSlider>
+                        <Upload
+                            name="image"
+                            listType="picture-card"
+                            showUploadList={false}
+                            beforeUpload={beforeUpload}
+                        >
+                            {imageUrl ? (
+                                <img src={imageUrl} alt="image" style={{ width: '100%' }} />
+                            ) : (
+                                uploadButton
+                            )}
+                        </Upload>
+                    </ImgCrop>
+                </div>
             </div>
         </div>
     );

@@ -10,6 +10,7 @@ export type Styles = {
     'round-shape': string;
     'charling-pro-top-nav-header-main-left': string;
     'charling-pro-layout-content': string;
+    'project-name': string;
     root: string;
 };
 

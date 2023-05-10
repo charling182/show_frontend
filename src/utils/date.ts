@@ -1,4 +1,6 @@
 import dayjs from 'dayjs';
+import weekOfYear from 'dayjs/plugin/weekOfYear';
+dayjs.extend(weekOfYear);
 /**
  * 时间人性化转换，几秒前，X分钟起，X小时前提供下次更新时间
  */
@@ -14,6 +16,7 @@ export const dateHumanizeFormat = function (date?: string, options?: any) {
     const currentDay = dayjs(date).day();
     const limit = Date.now() - targetDate.getTime();
     const limitDays = nowDate.getDate() - targetDate.getDate();
+
     const limitWeeks =
         nowDate.getFullYear() === targetDate.getFullYear()
             ? dayjs().week() - dayjs(date).week()

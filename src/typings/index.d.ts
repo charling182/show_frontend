@@ -1,7 +1,8 @@
 import React from 'react';
 import { user } from './user';
 import { department } from './department';
-import { role } from './department';
+import { role } from './role';
+import { project } from './project';
 import type { ErrorShowType } from 'umi';
 declare global {
     namespace types {
@@ -21,6 +22,7 @@ declare global {
         export { user };
         export { department };
         export { role };
+        export { project };
 
         export interface ErrorInfoStructure {
             /**

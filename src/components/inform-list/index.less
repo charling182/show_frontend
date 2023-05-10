@@ -3,12 +3,17 @@
         position: relative;
         padding: 8px 10px;
         border-bottom: 1px solid #f5f5f5;
+
         .main {
+            display: flex;
+            align-items: center;
             padding: 5px 0;
+
             .username {
                 display: inline-block;
                 margin-right: 5px;
             }
+
             .content {
                 display: inline-block;
                 max-width: 300px;
@@ -17,41 +22,45 @@
                 text-overflow: ellipsis;
             }
         }
+
         .created_at {
             color: rgba(0, 0, 0, 0.45);
         }
+
         .controller {
             position: absolute;
-            top: 0;
+            top: 20px;
             right: 0;
             display: none;
             align-items: center;
             justify-content: center;
             width: 100px;
             height: 100%;
-            background-image: -webkit-gradient(
-                linear,
-                left top,
-                right top,
-                from(hsla(0, 0%, 100%, 0)),
-                color-stop(53%, #f7f7f7)
-            );
+            // background-image: -webkit-gradient(linear,
+            //         left top,
+            //         right top,
+            //         from(hsla(0, 0%, 100%, 0)),
+            //         color-stop(53%, #f7f7f7));
             cursor: default;
             opacity: 0;
             transition: opacity 1000ms linear;
+
             .btn {
                 display: inline-block;
                 color: #1b9aee;
                 font-size: 12px;
                 cursor: pointer;
+
                 &:hover {
                     opacity: 0.7;
                 }
             }
         }
+
         &:hover {
             background-color: #f5f5f5;
             cursor: pointer;
+
             .controller {
                 display: flex;
                 opacity: 1;

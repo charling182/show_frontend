@@ -26,6 +26,7 @@ export namespace user {
         company?: string;
         city?: string;
         state?: number;
+        avatar?: string;
     }
     // 用户列表数据声明
     interface userListParams {
