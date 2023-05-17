@@ -3,7 +3,7 @@ import { createFromIconfontCN } from '@ant-design/icons';
 import type { IconFontProps } from '@ant-design/icons/lib/components/IconFont';
 
 const AntdIconFont = createFromIconfontCN({
-    scriptUrl: '//at.alicdn.com/t/c/font_4040998_9lw0drtk41d.js',
+    scriptUrl: '//at.alicdn.com/t/c/font_4040998_au4o2haqb6o.js',
 });
 
 type UdeskIconFontProps = {

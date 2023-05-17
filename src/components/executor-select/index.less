@@ -1,0 +1,61 @@
+.popover-content-executor-selector {
+    .wrap-current-executor {
+        min-height: 240px;
+        max-height: 500px;
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        .title {
+            line-height: 40px;
+        }
+
+        .current-executor {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px 3px;
+            cursor: pointer;
+
+            .wrap-info {
+                display: flex;
+                align-items: center;
+
+                .name {
+                    display: inline-block;
+                    width: 130px;
+                    margin-left: 5px;
+                }
+            }
+
+            & i {
+                font-size: 18px;
+            }
+        }
+
+        .current-executor:hover {
+            background-color: #f5f5f5;
+        }
+    }
+
+    .wrap-footer {
+        padding: 10px 0px 0px 0px;
+        border-top: 1px solid #e5e5e5;
+        margin-top: 5px;
+    }
+}
+
+.executor-select {
+    .btn {
+        padding: 5px 0px;
+        display: flex;
+        align-items: center;
+
+        .user-avatar {
+            margin-right: 5px;
+        }
+
+        .el-icon-question {
+            margin-left: 5px;
+        }
+    }
+}

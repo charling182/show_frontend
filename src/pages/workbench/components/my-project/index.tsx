@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Image, Pagination, Progress } from 'antd';
+import { Button, Image, Pagination, Progress, message } from 'antd';
 // import { getList, permissions as projectPermissions } from '@/api/projectManagement';
 import { dateHumanizeFormat } from '@/utils';
 import EmptyImage from '@/components/empty-image';
 import { getProjectList } from '@/api';
+import { history } from 'umi';
 
 import styles from './index.less';
 
@@ -38,10 +39,10 @@ const MyProject = ({ onGetProjectCount }) => {
     }, []);
 
     const goToProjectList = () => {
-        // this.$router.push(this.$configSettings.project_list_path);
+        history.push('/project-manage/list');
     };
     const goToProject = (project) => {
-        // this.$router.push(`${this.$configSettings.project_path}/${project.id}`);
+        history.push(`/project-manage/project/${project.id}`);
     };
 
     const handleCurrentChange = (val) => {
@@ -59,7 +60,7 @@ const MyProject = ({ onGetProjectCount }) => {
         <div className={styles['my-project']}>
             <div className={styles['head']}>
                 <div className={styles['title']}>进行中的项目</div>
-                <Button type="text" size="medium" onClick={goToProjectList}>
+                <Button type="link" onClick={goToProjectList}>
                     全部项目
                 </Button>
             </div>
@@ -72,16 +73,14 @@ const MyProject = ({ onGetProjectCount }) => {
                     >
                         {item.is_private === 0 && <div className={styles['public-tip']}>公开</div>}
                         <div className={styles['wrap-cover']}>
-                            <Image src={item.cover} className={styles['cover']} alt="" />
+                            <img src={item.cover} className={styles['cover']} />
                         </div>
-                        <div className={styles['name'] + ' ' + styles['ellipsis']}>{item.name}</div>
-                        <div className={styles['intro'] + ' ' + styles['ellipsis']}>
-                            {item.intro || '暂无介绍'}
-                        </div>
+                        <div className={`${styles['name']}}`}>{item.name}</div>
+                        <div className={styles['intro']}>{item.intro || '暂无介绍'}</div>
                         <Progress percent={item.progress} showInfo={false} strokeWidth={2} />
                         <div className={styles['foot']}>
                             <div className={styles['username']}>
-                                {item.creator && item.creator.username}
+                                {item?.creator && item?.creator.username}
                             </div>
                             <div className={styles['created_at']}>{item.created_at_humanize}</div>
                         </div>

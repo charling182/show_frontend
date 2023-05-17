@@ -1,0 +1,140 @@
+.list-group-item {
+    position: relative;
+    display: flex;
+    width: 240px;
+    min-height: 48px;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%);
+    border-radius: 4px;
+    background-color: #fff;
+    margin-bottom: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    padding: 10px;
+
+    .state {
+        position: absolute;
+        bottom: 5px;
+        right: 14px;
+    }
+
+    .wrap-done {
+        width: 18px;
+        padding: 0 4px;
+
+        .iconfont {
+            font-size: 18px;
+            color: #969696;
+        }
+
+        .iconfont:hover {
+            color: #414141;
+        }
+    }
+
+    .content {
+        width: calc(259px - 77px);
+        white-space: normal;
+        word-break: break-all;
+        padding-left: 5px;
+        padding-right: 10px;
+
+        .name {
+            text-align: justify;
+        }
+
+        .info {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 5px 0px;
+
+            .info-item {
+                font-size: 16px;
+                margin-right: 6px;
+                margin-bottom: 3px;
+            }
+
+            .task-date {
+                line-height: 20px;
+                font-size: 12px;
+                background-color: #f7f7f7;
+                padding: 0 6px;
+                border-radius: 2px;
+                white-space: nowrap;
+            }
+
+            .task-date-overdue {
+                background-color: #e62412;
+                color: #fff;
+            }
+
+            .task-date-intraday {
+                background-color: #fa8c15;
+                color: #fff;
+            }
+
+            .task-date-recently {
+                background-color: #1b9aee;
+                color: #fff;
+            }
+
+            .task-date-safety {
+                background-color: #f7f7f7;
+                color: #000;
+            }
+        }
+    }
+
+    .executor {
+        width: 26px;
+    }
+
+    .task-priority {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background-color: #2cc642;
+        transition: width 200ms;
+    }
+
+    .task-state-success {
+        filter: opacity(0.5);
+    }
+}
+
+.list-group-item:hover {
+    .task-priority {
+        width: 8px;
+    }
+}
+
+.list-group-item-done {
+    .content,
+    .executor,
+    .task-priority,
+    .state {
+        filter: opacity(0.6);
+    }
+
+    .wrap-done {
+        .iconfont {
+            color: #ccc;
+        }
+
+        .iconfont:hover {
+            color: #000000 !important;
+        }
+    }
+}
+
+.list-group-item-done:hover {
+    .task-priority {
+        width: 4px;
+    }
+}
+
+.color-light {
+    color: rgba(0, 0, 0, 0.45);
+}

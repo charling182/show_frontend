@@ -2,17 +2,21 @@ import { List, Avatar, Button, message } from 'antd';
 import { For } from 'tsx-control-statements/components';
 import { updateMessage } from '@/api';
 import styles from './index.less';
+import { history } from 'umi';
 
 const InformList = ({ data }) => {
     const select = (item) => {
         if (item.url) {
-            // 在此处使用路由导航实现页面跳转,跳转到具体项目
+            // 在此处使用路由导航实现页面跳转,跳转到消息详情页
+            history.push(item.url);
         }
         doRead(item);
     };
 
-    const doRead = async (item, e) => {
-        e.stopPropagation();
+    const doRead = async (item: any, e?: any) => {
+        if (e) {
+            e.stopPropagation();
+        }
         const { code } = await updateMessage({
             ...item,
             is_read: 1,

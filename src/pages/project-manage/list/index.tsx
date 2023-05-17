@@ -1,13 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Tabs, Progress, Tag, Pagination, Space } from 'antd';
+import { Button, Tabs, Progress, Tag, Pagination, Space, Modal } from 'antd';
 import styles from './index.less'; // 导入样式
-import { For } from 'tsx-control-statements/components';
+import { For, Choose, When, Otherwise, If } from 'tsx-control-statements/components';
 import BtnTooltip from '@/components/btn-tooltip';
-import { UserAddOutlined, StarTwoTone, StarOutlined, EditOutlined } from '@ant-design/icons';
-import { getProjectList, changeProjectCollect } from '@/api';
+import {
+    UserAddOutlined,
+    StarTwoTone,
+    StarOutlined,
+    EditOutlined,
+    PlusOutlined,
+    UndoOutlined,
+    DeleteOutlined,
+} from '@ant-design/icons';
+import { getProjectList, changeProjectCollect, updateProject } from '@/api';
 import dayjs from 'dayjs';
 import { useModel } from 'umi';
 import AddMemberToProjectDialog from './components/add-member-to-project-dialog';
+import ProjectCreate from './components/project-create';
+import EmptyImage from '@/components/empty-image';
+import ProjectEdit from './components/project-edit';
+import { history } from 'umi';
+
+const { confirm } = Modal;
 
 // 这里假设了一些功能函数，你需要自行实现它们
 // import { getProjects, checkUserPermissions, checkProjectPermissions, editProject, recycleProject, restoreProject, unarchiveProject } from '@/api';
@@ -45,8 +59,23 @@ const ProjectList = () => {
     const [refresh, setRefresh] = useState<number>(0);
     // 添加成员显示隐藏
     const [addMemberVisible, setAddMemberVisible] = useState<boolean>(false);
+    // 项目创建开关
+    const [projectCreateVisible, setProjectCreateVisible] = useState<boolean>(false);
     // 选中的项目
-    const [selectedProject, setSelectedProject] = useState({});
+    const [selectedProject, setSelectedProject] = useState<any>({});
+    const [projectEditVisible, setProjectEditVisible] = useState<boolean>(false);
+
+    const handleProjectEditFinish = (type: 'success' | 'quit') => {
+        setProjectEditVisible(false);
+        setRefresh(refresh + 1);
+    };
+
+    // 项目创建完成事件
+    const handleProjectCreateFinish = (type: 'success' | 'quit') => {
+        setProjectCreateVisible(false);
+        setRefresh(refresh + 1);
+    };
+
     // 添加成员完成或者退出事件
     const handleAddMemberFinish = (type: 'success' | 'quit') => {
         setAddMemberVisible(false);
@@ -114,22 +143,61 @@ const ProjectList = () => {
     };
     const handleEdit = (project, e) => {
         e.currentTarget.blur();
+        setSelectedProject(project);
+        setProjectEditVisible(true);
         // 处理编辑逻辑
     };
 
-    const handleRecycle = (project) => {
+    const handleRecycle = (project, e) => {
+        e.currentTarget.blur();
         // 处理回收逻辑
+        confirm({
+            title: '你确定要将当前项目移至回收站吗',
+            async onOk() {
+                project.is_recycle = 1;
+                const { code } = await updateProject(project);
+                if (code === 200) {
+                    setRefresh(refresh + 1);
+                }
+            },
+        });
     };
 
     const handleRestore = (project) => {
         // 处理恢复逻辑
+        confirm({
+            title: '你确定要从回收站中还原当前项目吗',
+            async onOk() {
+                project.is_recycle = 0;
+                const { code } = await updateProject(project);
+                if (code === 200) {
+                    setRefresh(refresh + 1);
+                }
+            },
+        });
     };
 
-    const handleUnarchive = (project) => {
+    const handleUnarchive = (project, e) => {
+        e.currentTarget.blur();
         // 处理取消归档逻辑
+        confirm({
+            title: '你确定要从归档中还原当前项目吗',
+            async onOk() {
+                project.is_archived = 0;
+                const { code } = await updateProject(project);
+                if (code === 200) {
+                    setRefresh(refresh + 1);
+                }
+            },
+        });
     };
-    const projectClick = (project) => {};
-    const handleCreate = (project) => {};
+    const projectClick = (project) => {
+        history.push(`/project-manage/project/${project.id}`);
+    };
+    const handleCreate = () => {
+        setProjectCreateVisible(true);
+        setSelectedProject({});
+    };
     const handleStart = async (item, e) => {
         e.currentTarget.blur();
         const { code } = await changeProjectCollect({
@@ -150,101 +218,140 @@ const ProjectList = () => {
                 {/* 这里只是一个例子，你需要根据你的实际需求来创建 TabPane */}
                 <For each="item" of={menuData} index="index">
                     <Tabs.TabPane tab={item.tab} key={item.key}>
-                        <div className={styles.list}>
-                            {projects.map((project) => (
-                                <div key={project.id} className={styles['item-list']}>
-                                    <img src={project.cover} />
-                                    <div className={styles['item-info']}>
-                                        <div className={styles.name}>
-                                            <span
-                                                className={styles['name-text']}
-                                                onClick={() => projectClick(project)}
-                                            >
-                                                {project.name}
-                                            </span>
-                                            {project.is_private === 0 && (
-                                                <Tag color="green" style={{ marginLeft: 10 }}>
-                                                    公开
-                                                </Tag>
-                                            )}
+                        <Choose>
+                            <When condition={projects.length}>
+                                <div className={styles.list}>
+                                    {projects.map((project) => (
+                                        <div key={project.id} className={styles['item-list']}>
+                                            <img style={{ width: '80px' }} src={project.cover} />
+                                            <div className={styles['item-info']}>
+                                                <div className={styles.name}>
+                                                    <span
+                                                        className={styles['name-text']}
+                                                        onClick={() => projectClick(project)}
+                                                    >
+                                                        {project.name}
+                                                    </span>
+                                                    {project.is_private === 0 && (
+                                                        <Tag
+                                                            color="green"
+                                                            style={{ marginLeft: 10 }}
+                                                        >
+                                                            公开
+                                                        </Tag>
+                                                    )}
+                                                </div>
+                                                <div className={styles.intro}>{project.intro}</div>
+                                            </div>
+                                            <div className={styles['item-manager']}>
+                                                <div>创建日期</div>
+                                                <div>
+                                                    {dateFormat(project.created_at, 'YYYY-MM-DD')}
+                                                </div>
+                                            </div>
+                                            <div className={styles['item-create-date']}>
+                                                <div>创建人</div>
+                                                <div>
+                                                    {project?.creator?.username
+                                                        ? project?.creator?.username
+                                                        : '-'}
+                                                </div>
+                                            </div>
+                                            <div className={styles['item-progress']}>
+                                                <div>进度</div>
+                                                <Progress percent={project.progress} />
+                                            </div>
+                                            <Space className={styles['item-control']}>
+                                                <BtnTooltip
+                                                    tooltipContent={getMemberTooltipContent(
+                                                        project
+                                                    )}
+                                                    icon={<UserAddOutlined />}
+                                                    onClick={(e) => handleAddUser(project, e)}
+                                                />
+                                                <BtnTooltip
+                                                    tooltipContent="项目设置"
+                                                    icon={<EditOutlined />}
+                                                    onClick={(e) => handleEdit(project, e)}
+                                                />
+                                                <If condition={project.is_recycle !== 1}>
+                                                    <BtnTooltip
+                                                        icon={
+                                                            project.collector.length ? (
+                                                                <StarTwoTone />
+                                                            ) : (
+                                                                <StarOutlined />
+                                                            )
+                                                        }
+                                                        tooltipContent={
+                                                            project.collector.length
+                                                                ? '取消收藏'
+                                                                : '加入收藏'
+                                                        }
+                                                        onClick={(e) => handleStart(project, e)}
+                                                    />
+                                                </If>
+                                                <If condition={project.is_archived === 1}>
+                                                    <BtnTooltip
+                                                        icon={<UndoOutlined />}
+                                                        tooltipContent={'从归档中恢复项目'}
+                                                        onClick={(e) => handleUnarchive(project, e)}
+                                                    />
+                                                </If>
+                                                <Choose>
+                                                    <When condition={project.is_recycle === 1}>
+                                                        <BtnTooltip
+                                                            icon={<UndoOutlined />}
+                                                            tooltipContent={'从回收站中恢复项目'}
+                                                            onClick={(e) =>
+                                                                handleRestore(project, e)
+                                                            }
+                                                        />
+                                                    </When>
+                                                    <Otherwise>
+                                                        <BtnTooltip
+                                                            icon={<DeleteOutlined />}
+                                                            tooltipContent={'移至回收站'}
+                                                            onClick={(e) =>
+                                                                handleRecycle(project, e)
+                                                            }
+                                                        />
+                                                    </Otherwise>
+                                                </Choose>
+                                            </Space>
                                         </div>
-                                        <div className={styles.intro}>{project.intro}</div>
-                                    </div>
-                                    <div className={styles['item-manager']}>
-                                        <div>创建日期</div>
-                                        <div>{dateFormat(project.created_at, 'YYYY-MM-DD')}</div>
-                                    </div>
-                                    <div className={styles['item-create-date']}>
-                                        <div>创建人</div>
-                                        <div>
-                                            {project?.creator?.username
-                                                ? project?.creator?.username
-                                                : '-'}
-                                        </div>
-                                    </div>
-                                    <div className={styles['item-progress']}>
-                                        <div>进度</div>
-                                        <Progress percent={project.progress} />
-                                    </div>
-                                    {/* 其他信息 */}
-                                    {/* 控制按钮 */}
-                                    <Space className={styles['item-control']}>
-                                        <BtnTooltip
-                                            tooltipContent={getMemberTooltipContent(project)}
-                                            icon={<UserAddOutlined />}
-                                            onClick={(e) => handleAddUser(project, e)}
-                                        />
-                                        <BtnTooltip
-                                            tooltipContent="项目设置"
-                                            icon={<EditOutlined />}
-                                            onClick={(e) => handleEdit(project, e)}
-                                        />
-                                        <BtnTooltip
-                                            icon={
-                                                project.collector.length ? (
-                                                    <StarTwoTone />
-                                                ) : (
-                                                    <StarOutlined />
-                                                )
-                                            }
-                                            tooltipContent={
-                                                project.collector.length ? '取消收藏' : '加入收藏'
-                                            }
-                                            onClick={(e) => handleStart(project, e)}
-                                        />
-                                        <BtnTooltip
-                                            icon={<UserAddOutlined />}
-                                            tooltipContent={'从归档中恢复项目'}
-                                            onClick={(e) => handleUnarchive(project, e)}
-                                        />
-                                        <BtnTooltip
-                                            icon={<UserAddOutlined />}
-                                            tooltipContent={'从回收站中恢复项目'}
-                                            onClick={(e) => handleRestore(project, e)}
-                                        />
-                                        <BtnTooltip
-                                            icon={<UserAddOutlined />}
-                                            tooltipContent={'移至回收站'}
-                                            onClick={(e) => handleRecycle(project, e)}
-                                        />
-                                    </Space>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                        {projects.length === 0 && !loading && (
-                            <div className={styles.empty}>没有项目</div>
-                        )}
+                            </When>
+                            <Otherwise>
+                                <EmptyImage height={400} heightImg={230}></EmptyImage>
+                            </Otherwise>
+                        </Choose>
                     </Tabs.TabPane>
                 </For>
             </Tabs>
-            {/* <Button type="primary" icon="plus" onClick={handleCreate} >创建新项目</Button> */}
-            {/* 创建项目的组件 */}
-            {/* 编辑项目的组件 */}
-            {/* 添加成员的组件 */}
+            <Button
+                className={styles['create-project']}
+                type="primary"
+                icon={<PlusOutlined />}
+                onClick={handleCreate}
+            >
+                创建新项目
+            </Button>
             <AddMemberToProjectDialog
                 project={selectedProject}
                 handleAddMemberFinish={handleAddMemberFinish}
                 addMemberVisible={addMemberVisible}
+            />
+            <ProjectCreate
+                project={selectedProject}
+                projectCreateVisible={projectCreateVisible}
+                handleProjectCreateFinish={handleProjectCreateFinish}
+            />
+            <ProjectEdit
+                project={selectedProject}
+                projectEditVisible={projectEditVisible}
+                handleProjectEditFinish={handleProjectEditFinish}
             />
         </div>
     );

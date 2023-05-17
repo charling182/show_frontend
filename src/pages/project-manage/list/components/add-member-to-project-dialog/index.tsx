@@ -64,7 +64,7 @@ const AddMemberToProjectDialog = ({ project, addMemberVisible = false, handleAdd
     const handleCreateInvite = async (body) => {
         const { code } = await createInvite(body);
         if (code === 200) {
-            message.success('邀请成功');
+            message.success('已发起邀请');
         }
         // Do something after successful invite
     };
@@ -101,9 +101,6 @@ const AddMemberToProjectDialog = ({ project, addMemberVisible = false, handleAdd
                 {isManager && (
                     <div className={styles['wrap-intro']}>
                         <span>账号邀请</span>
-                        <Button type="text" disabled size="medium">
-                            通过链接邀请
-                        </Button>
                     </div>
                 )}
                 <Input

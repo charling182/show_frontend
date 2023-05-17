@@ -2,6 +2,7 @@ import React, { useState, useEffect, FC } from 'react';
 import { DesktopOutlined } from '@ant-design/icons';
 import { Row, Col, Input, Button, List } from 'antd';
 import MyProject from './components/my-project';
+import MyTask from './components/my-task';
 import UserInfo from './components/user-info';
 import { connect, ConnectProps, SocketModelState } from 'umi';
 import styles from './index.less';
@@ -70,30 +71,11 @@ const Workbench: FC<PageProps> & types.IConventionRouting = ({ socket: { socketI
         <div className={styles['workbench']}>
             <Row gutter={20}>
                 <UserInfo projectCount={projectCount}></UserInfo>
-                <div style={{ maxWidth: 600, margin: '0 auto' }}>
-                    <List
-                        dataSource={chatHistory}
-                        renderItem={(item) => <List.Item>{item}</List.Item>}
-                        style={{ marginBottom: 16 }}
-                    />
-                    <div style={{ display: 'flex' }}>
-                        <Input
-                            type="text"
-                            value={message}
-                            onChange={(event) => setMessage(event.target.value)}
-                            onPressEnter={handleSendMessage}
-                            style={{ marginRight: 16 }}
-                        />
-                        <Button type="primary" onClick={handleSendMessage}>
-                            发送
-                        </Button>
-                    </div>
-                </div>
                 <Col xs={24} sm={24} md={24} lg={16} xl={16}>
                     <MyProject onGetProjectCount={getProjectCount} />
                 </Col>
                 <Col xs={24} sm={24} md={24} lg={8} xl={8}>
-                    {/* <MyTask /> */}
+                    <MyTask />
                 </Col>
             </Row>
         </div>

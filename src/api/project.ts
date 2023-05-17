@@ -61,6 +61,15 @@ export async function getProjectStatistics(params) {
 }
 
 /**
+ * 成员退出项目
+ */
+export async function exitProject(data) {
+    return request('/user_projects/quit', {
+        method: 'DELETE',
+        data,
+    });
+}
+/**
  * 创建项目模板
  */
 export async function createProjectTemplate(data) {
@@ -103,10 +112,10 @@ export async function getOneProjectTemplate(params) {
 /**
  * 删除项目模板
  */
-export async function deleteProjectTemplate(params) {
+export async function deleteProjectTemplate(data) {
     return request('/project_templates', {
         method: 'DELETE',
-        params,
+        data,
     });
 }
 
@@ -143,10 +152,10 @@ export async function updateProjectTemplateTask(data) {
 /**
  * 删除项目模板任务
  */
-export async function deleteProjectTemplateTask(params) {
+export async function deleteProjectTemplateTask(data) {
     return request('/project_template_tasks', {
         method: 'DELETE',
-        params,
+        data,
     });
 }
 

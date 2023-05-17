@@ -1,0 +1,44 @@
+.project-template-task {
+    position: relative;
+    min-height: 400px;
+    padding-top: 20px;
+
+    .create-template {
+        position: absolute;
+        top: -8px;
+        right: 0px;
+    }
+
+    .list {
+        .item-list {
+            display: flex;
+            justify-content: space-between;
+            height: 70px;
+            padding: 12px 0;
+            border-bottom: 1px solid #ccc;
+
+            .item-info {
+                width: 160px;
+                line-height: 25px;
+            }
+
+            .item-tasks {
+                flex: 1;
+                padding-right: 40px;
+                line-height: 50px;
+                text-align: right;
+            }
+
+            .item-control {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                width: 90px;
+            }
+
+            .intro {
+                color: rgba(0, 0, 0, 0.45);
+            }
+        }
+    }
+}

@@ -1,0 +1,80 @@
+.task-list {
+    display: flex;
+    height: 100%;
+
+    .wrap-item {
+        display: inline-block;
+        margin: 0px 8px 0px 0px;
+        padding: 0px 3px;
+        width: 248px;
+        flex-shrink: 0;
+
+        .task-list-info {
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 20px;
+
+            .name {
+                display: flex;
+                align-items: center;
+                font-size: 14px;
+                font-weight: 600;
+
+                .name-point {
+                    display: inline-block;
+                    width: 2px;
+                    height: 2px;
+                    background-color: #000;
+                    border-radius: 2px;
+                    margin: 0 3px;
+                }
+            }
+
+            .more {
+                cursor: pointer;
+                padding: 2px;
+            }
+        }
+
+        .wrap-draggable {
+            overflow-x: hidden;
+            overflow-y: auto;
+            height: calc(100vh - 185px - 49px);
+            width: 269px;
+            padding-right: 15px;
+
+            .list-group {
+                min-height: 5px;
+            }
+
+            .btn-createTask {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 30px;
+                width: 269px;
+                background-color: #fff;
+                border-radius: 4px;
+                margin-bottom: 20px;
+                box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%);
+
+                .el-icon-plus {
+                    font-size: 18px;
+                    font-weight: 600;
+                }
+            }
+        }
+
+        .wrap-draggable::-webkit-scrollbar {
+            background-color: #f1f1f1;
+        }
+    }
+}
+
+.menu-item {
+    color: rgba(0, 0, 0, 0.65);
+
+    &-title {
+        margin-left: 8px;
+    }
+}

@@ -1,27 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { Tabs, Tag, Pagination, Select, Spin } from 'antd';
-// import { getList, permissions as taskPermissions } from '@/api/taskManagement';
-// import {
-//   getList as getTaskPriorityList,
-//   permissions as taskPriorityPermissions,
-// } from '@/api/taskPriorityManagement';
-// import { getProjectList } from '@/api';
+import { getTaskList, getTaskPriorityList } from '@/api';
 import EmptyImage from '@/components/empty-image';
 import styles from './index.less';
+import { useModel, history } from 'umi';
+import { UnorderedListOutlined, UsergroupAddOutlined, PlusCircleOutlined } from '@ant-design/icons';
 
 const { TabPane } = Tabs;
 const { Option } = Select;
 
 const MyTask = () => {
+    const { initialState } = useModel('@@initialState');
+    const userInfo: any = initialState || {};
     const [loading, setLoading] = useState(false);
     const [taskData, setTaskData] = useState({});
-    const [form, setForm] = useState({
-        is_done: 0,
-        is_recycle: 0,
-    });
     const [navActiveName, setNavActiveName] = useState('execute');
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
+    // 任务列表请求参数
+    const [taskListParams, setTaskListParams] = useState<any>({
+        limit: pageSize,
+        offset: (currentPage - 1) * pageSize,
+        is_done: 0,
+        is_recycle: 0,
+    });
 
     const taskDoneStates = [
         {
@@ -40,33 +42,55 @@ const MyTask = () => {
 
     useEffect(() => {
         init();
-    }, [navActiveName, form.is_done, currentPage]);
+    }, [taskListParams, navActiveName]);
+
+    const getList = () => {
+        const body: any = {};
+        switch (navActiveName) {
+            case 'execute':
+                body.executor_ids = [userInfo.id];
+                break;
+            case 'participation':
+                body.participator_id = userInfo.id;
+                break;
+            case 'created':
+                body.creator_id = userInfo.id;
+                break;
+            default:
+                break;
+        }
+        return getTaskList({
+            ...taskListParams,
+            ...body,
+        });
+    };
 
     const init = async () => {
         setLoading(true);
-        // const taskPriorityData = await getTaskPriorityList();
-        // const taskData = await getList(navActiveName, currentPage, pageSize, form);
-        // setLoading(false);
+        const { data: taskPriorityData } = await getTaskPriorityList();
+        const { data } = await getList();
+        setLoading(false);
 
-        // taskData.rows.forEach((task) => {
-        //   task.priority = taskPriorityData.rows.find(
-        //     (priority) => priority.id === task.task_priority_id,
-        //   );
-        //   return task;
-        // });
+        data.rows.forEach((task) => {
+            task.priority = taskPriorityData?.rows?.find(
+                (priority) => priority.id === task.task_priority_id
+            );
+            return task;
+        });
 
-        setTaskData(taskData);
+        setTaskData(data);
     };
 
     const handleCurrentChange = (val) => {
         setCurrentPage(val);
+        setTaskListParams({ ...taskListParams, offset: (val - 1) * pageSize });
     };
 
     const taskDoneStatesChange = (value) => {
-        setForm({ ...form, is_done: value });
+        setTaskListParams({ ...taskListParams, is_done: value });
     };
     const goToProject = (project) => {
-        // Implement the navigation to the project page
+        history.push(`/project-manage/project/${project.id}`);
     };
 
     const goToTask = (task) => {
@@ -79,7 +103,7 @@ const MyTask = () => {
                 <div className={styles.title}>我的任务 - {taskData.count}</div>
                 <div className={styles['wrap-ctrl']}>
                     <Select
-                        value={form.is_done}
+                        value={taskListParams.is_done}
                         placeholder="请选择"
                         style={{ width: 100 }}
                         onChange={taskDoneStatesChange}
@@ -97,7 +121,7 @@ const MyTask = () => {
                     <TabPane
                         tab={
                             <>
-                                <i className="iconfont icon-caidan1"></i> 我执行的
+                                <UnorderedListOutlined /> 我执行的
                             </>
                         }
                         key="execute"
@@ -105,7 +129,7 @@ const MyTask = () => {
                     <TabPane
                         tab={
                             <>
-                                <i className="iconfont icon-duoren1"></i> 我参与的
+                                <UsergroupAddOutlined /> 我参与的
                             </>
                         }
                         key="participation"
@@ -113,7 +137,7 @@ const MyTask = () => {
                     <TabPane
                         tab={
                             <>
-                                <i className="iconfont icon-jia"></i> 我创建的
+                                <PlusCircleOutlined /> 我创建的
                             </>
                         }
                         key="created"
@@ -124,22 +148,23 @@ const MyTask = () => {
                 <Spin spinning={loading}>
                     {taskData.rows &&
                         taskData.rows.map((item) => (
-                            <div key={item.id} className={styles['task-item']}>
+                            <div
+                                key={item.id}
+                                className={styles['task-item']}
+                                onClick={() => goToProject(item.project)}
+                            >
                                 <Tag
                                     style={{
-                                        color: item.priority.color,
-                                        borderColor: item.priority.color,
+                                        color: item?.priority?.color,
+                                        borderColor: item?.priority?.color,
                                     }}
                                 >
-                                    {item.priority.name}
+                                    {item?.priority?.name}
                                 </Tag>
                                 <div className={styles['task-name']} onClick={() => goToTask(item)}>
                                     {item.name}
                                 </div>
-                                <div
-                                    className={styles['project-name']}
-                                    onClick={() => goToProject(item.project)}
-                                >
+                                <div className={styles['project-name']}>
                                     {item.project && item.project.name}
                                 </div>
                             </div>

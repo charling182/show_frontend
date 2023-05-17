@@ -8,6 +8,7 @@ export type Styles = {
     'item-tasks': string;
     task: string;
     'item-control': string;
+    'color-light': string;
 };
 
 export type ClassNames = keyof Styles;

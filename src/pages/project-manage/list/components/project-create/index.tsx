@@ -1,76 +1,111 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Form, Input, Button, Select, Upload, message } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { UploadOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from './index.less';
+import ImgCrop from 'antd-img-crop';
+import { uploadFile, getProjectTemplateList, createProject, updateProject } from '@/api';
+import { useModel } from 'umi';
 
-function ProjectCreate({ showCreate, hideCreate, fetchProjects, project = null }) {
+function ProjectCreate({ projectCreateVisible, handleProjectCreateFinish, project }) {
+    const { initialState } = useModel('@@initialState');
+    const userInfo = initialState || {};
     const [form] = Form.useForm();
     const [templates, setTemplates] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [cover, setCover] = useState('');
+    const [cover, setCover] = useState<string>('');
 
     useEffect(() => {
         const loadTemplates = async () => {
             setLoading(true);
-            const templates = await getList();
-            setTemplates(templates);
+            const {
+                data: { rows },
+            } = await getProjectTemplateList();
+            setTemplates(rows);
             setLoading(false);
         };
         loadTemplates();
     }, []);
 
-    const handleUpload = ({ fileList }) => {
-        // read from response and show file link
-        const url = fileList.file.response.url;
-        setCover(url);
+    const uploadButton = (
+        <div>
+            {loading ? <LoadingOutlined /> : <PlusOutlined />}
+            <div style={{ marginTop: 8 }}>Upload</div>
+        </div>
+    );
+
+    // 上传前校验图片
+    const beforeUpload = (file) => {
+        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+        if (!isJpgOrPng) {
+            message.error('你需要上传jpeg或者png图片格式!');
+            return false;
+        }
+        const isLt5M = file.size / 1024 / 1024 < 5;
+        if (!isLt5M) {
+            message.error('图片必须小于5MB!');
+            return false;
+        }
+        uploadImage(file);
+        return false; // 阻止 Upload 组件自动上传文件
+    };
+
+    // 图片上传方法
+    const uploadImage = async (file: any) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        const { code, data } = await uploadFile(formData);
+        setCover(data.path);
+        // setCover(URL.createObjectURL(file));
+        // 设置表单中的 avatar 字段值
+        form.setFieldValue('avatar', data.path);
     };
 
     const onFinish = async (values) => {
         setLoading(true);
         values.cover = cover;
+        values.manager_id = userInfo.id;
         try {
-            if (project) {
-                await doEdit(values);
+            if (project.id) {
+                await updateProject(values);
                 message.success('项目已成功编辑');
             } else {
-                if (values.cover === '') {
-                    values.cover = await getRandomImgPath();
-                }
-                await doCreate(values);
+                await createProject(values);
                 message.success('项目已成功创建');
             }
-            fetchProjects();
-            hideCreate();
+            handleProjectCreateFinish('success');
         } catch (error) {
             message.error('操作失败，请稍后再试');
         }
         setLoading(false);
     };
+    const onCancel = () => {
+        handleProjectCreateFinish('quit');
+    };
 
     return (
         <Modal
-            open={showCreate}
+            open={projectCreateVisible}
             title={project ? '编辑项目' : '添加项目'}
-            onCancel={hideCreate}
+            onCancel={onCancel}
             footer={null}
-            className={styles['role-management']}
+            className={styles['project-create']}
         >
             <Form form={form} layout="vertical" onFinish={onFinish}>
                 <Form.Item label="封面" name="cover">
-                    <Upload
-                        name="avatar"
-                        listType="picture-card"
-                        className="avatar-uploader"
-                        showUploadList={false}
-                        action="//jsonplaceholder.typicode.com/posts/"
-                        onChange={handleUpload}
-                    >
-                        {cover ? (
-                            <img src={cover} alt="avatar" style={{ width: '100%' }} />
-                        ) : (
-                            <UploadOutlined />
-                        )}
-                    </Upload>
+                    <ImgCrop rotationSlider>
+                        <Upload
+                            name="image"
+                            listType="picture-card"
+                            showUploadList={false}
+                            beforeUpload={beforeUpload}
+                        >
+                            {cover ? (
+                                <img src={cover} alt="image" style={{ width: '100%' }} />
+                            ) : (
+                                uploadButton
+                            )}
+                        </Upload>
+                    </ImgCrop>
                 </Form.Item>
                 <Form.Item
                     label="项目名称"
@@ -95,7 +130,7 @@ function ProjectCreate({ showCreate, hideCreate, fetchProjects, project = null }
                 <Form.Item label="项目简介" name="intro">
                     <Input.TextArea rows={2} placeholder="项目简介" />
                 </Form.Item>
-                <Form.Item>
+                <Form.Item wrapperCol={{ offset: 21, span: 3 }}>
                     <Button type="primary" htmlType="submit" loading={loading}>
                         确 定
                     </Button>

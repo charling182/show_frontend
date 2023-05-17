@@ -24,6 +24,7 @@ const UserInfo = ({ projectCount }) => {
         company: initialState?.company || '',
         city: initialState?.city || '',
         roles: initialState?.roles || '',
+        avatar: initialState?.avatar || '',
     });
 
     const getTip = () => {
@@ -48,15 +49,7 @@ const UserInfo = ({ projectCount }) => {
     return (
         <div className={styles['user-info']}>
             <div className={styles['wrap-user']}>
-                <Image
-                    className={styles['user-avatar']}
-                    src={userInfo.avatar || ''}
-                    width={64}
-                    height={64}
-                    preview={false}
-                    fallback="/assets/default-avatar.png"
-                    alt="用户头像"
-                />
+                <img className={styles['user-avatar']} src={userInfo.avatar || ''} alt="用户头像" />
                 <div className={styles.info}>
                     <div
                         className={styles.tip}

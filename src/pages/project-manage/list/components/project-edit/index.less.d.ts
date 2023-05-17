@@ -2,7 +2,6 @@ export type Styles = {
     'project-edit': string;
     'wrap-pane': string;
     special: string;
-    'el-form-item__label': string;
     foot: string;
     'user-info': string;
     preference: string;
@@ -11,6 +10,7 @@ export type Styles = {
     title: string;
     tip: string;
     'wrap-btn': string;
+    'color-light': string;
     'el-form': string;
 };
 

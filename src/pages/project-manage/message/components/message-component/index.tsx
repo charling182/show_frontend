@@ -93,7 +93,7 @@ const Message = ({ type = 'mention' }: IProps) => {
                         height={32}
                         borderRadius={32}
                     ></BImage>
-                    <span className={styles['content-username']}>{record.actor.username}</span>
+                    <span className={styles['content-username']}>{record?.actor?.username}</span>
                     <span dangerouslySetInnerHTML={{ __html: record.content }}></span>
                 </div>
             ),

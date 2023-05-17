@@ -1,0 +1,197 @@
+.wrap-item-menu {
+    :global {
+        .@{ant-prefix}-dropdown-menu-item {
+            &:hover {
+                background-color: rgba(61, 168, 245, 0.1);
+                color: #3da8f5 !important;
+            }
+        }
+    }
+}
+
+.task-dialog {
+    white-space: normal;
+
+    :global {
+        .@{ant-prefix}-modal-body {
+            padding-top: 0 !important;
+        }
+    }
+
+    .on-normal {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 50px;
+        padding: 5px 60px 5px 20px;
+    }
+
+    .on-recycle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 50px;
+        padding: 5px 60px 5px 20px;
+        background-color: #f5f5f5;
+
+        .tip {
+            color: rgba(0, 0, 0, 0.45);
+
+            & i {
+                padding-right: 10px;
+            }
+        }
+
+        .ctrl {
+        }
+    }
+
+    .el-dropdown-link-type {
+        cursor: pointer;
+        user-select: none;
+        padding: 5px;
+        background-color: #e1f3fc;
+        border-radius: 4px;
+        color: #1b9aee;
+    }
+
+    .wrap-task {
+        padding: 10px 10px 0 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        .wrap-name {
+            margin-bottom: 16px;
+
+            :global {
+                .@{ant-prefix}-input {
+                    border: none;
+                    font-size: 18px !important;
+                    color: #555;
+                }
+
+                .@{ant-prefix}-input:hover {
+                    background-color: #f7f7f7;
+                }
+            }
+
+            .wrap-name-done {
+                :global {
+                    .@{ant-prefix}-input {
+                        color: #bfbfbf;
+                    }
+                }
+            }
+        }
+
+        .wrap-item {
+            display: flex;
+            align-items: center;
+            min-height: 48px;
+            padding: 5px 0;
+
+            .iconfont {
+                font-size: 16px;
+                margin-right: 8px;
+                color: rgba(0, 0, 0, 0.45);
+            }
+
+            .label {
+                flex-shrink: 0;
+                width: 120px;
+                color: rgba(0, 0, 0, 0.45);
+            }
+
+            .content {
+                width: 580px;
+            }
+        }
+
+        .wrap-state {
+        }
+
+        .wrap-date {
+            .el-icon-minus {
+                padding: 0px 5px;
+            }
+        }
+
+        .wrap-remark {
+            align-items: normal;
+
+            .label {
+                margin-top: 8px;
+            }
+
+            .btn-remark {
+                cursor: pointer;
+
+                .wrap-remark-html {
+                    min-height: 36px;
+                }
+
+                .btn {
+                    line-height: 36px;
+                    padding-left: 10px;
+                }
+            }
+
+            .btn-remark:hover {
+                background-color: #f5f5f5;
+            }
+
+            .wrap-rich-text {
+                min-height: 200px;
+
+                .wrap-btn-remark {
+                    margin-top: 5px;
+                    text-align: right;
+                }
+            }
+        }
+
+        .wrap-tag {
+            .content {
+                display: flex;
+                align-items: center;
+
+                .btn-add-tag {
+                    display: inline-block;
+
+                    .el-icon-circle-plus {
+                        font-size: 18px;
+                        margin-left: 10px;
+                    }
+
+                    .el-icon-circle-plus:hover {
+                        color: #3da8f5;
+                    }
+                }
+
+                .btn-add-tag:hover {
+                    color: #3da8f5;
+                }
+            }
+        }
+    }
+
+    .wrap-dynamic {
+        padding: 10px 0 0 0;
+        border-left: 1px solid #ccc;
+    }
+}
+
+.close-icon {
+    font-size: 14px !important;
+    color: #ccc !important;
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+.menu-item {
+    color: rgba(0, 0, 0, 0.65);
+
+    &-title {
+        margin-left: 8px;
+    }
+}

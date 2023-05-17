@@ -6,12 +6,12 @@ const BtnTooltip = ({
     tooltipContent = '',
     icon,
     size = 'mini',
-    btnClass = '',
     circle = true,
     disabled = false,
-    btnStyle = '',
     onClick = () => {},
     children,
+    btnStyle = {},
+    type = '',
 }) => {
     return (
         <Tooltip
@@ -22,8 +22,10 @@ const BtnTooltip = ({
             mouseEnterDelay={0.3}
         >
             <Button
+                style={btnStyle}
                 icon={icon}
-                // className={btnClass}
+                size={size}
+                type={type}
                 shape={circle ? 'circle' : 'default'}
                 disabled={disabled}
                 onClick={onClick}
