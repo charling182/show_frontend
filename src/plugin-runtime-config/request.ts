@@ -12,7 +12,9 @@ type RequestOptionsExtra = {
 const handleRequestInterceptors = (url: string, options: any) => {
     // 微信客服相关接口基地址与其他不同,故需要专门处理
     let handleUrl: string = url;
-    const appToken = getJwtFromLocalstorage();
+    const stringflyData: string = getJwtFromLocalstorage() || '';
+    const parseData = stringflyData ? JSON.parse(stringflyData) : {};
+    const appToken = parseData?.accessToken;
     // 将参数中非false，0 的非真参数去除
     const paramsArr = Reflect.ownKeys(options.params);
     paramsArr.forEach((key) => {

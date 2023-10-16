@@ -16,7 +16,7 @@ import { Choose, When, Otherwise } from 'tsx-control-statements/components';
 import List from './components/task-list';
 import EditorTaskListDialog from './components/editor-task-list-dialog';
 
-const TaskList = ({ currentProject }) => {
+const TaskList = ({ currentProject, taskListSearchCondition }) => {
     const { initialState } = useModel('@@initialState');
     const userInfo: any = initialState;
     // 判断当前登录人是否为项目成员
@@ -96,7 +96,12 @@ const TaskList = ({ currentProject }) => {
         const {
             code,
             data: { rows },
-        } = await getTaskLists({ project_id: currentProject.id, limit: 1000, offset: 0 });
+        } = await getTaskLists({
+            project_id: currentProject.id,
+            limit: 1000,
+            offset: 0,
+            ...taskListSearchCondition,
+        });
         if (code === 200) {
             const map: any = {};
             rows.forEach((item: any) => {
@@ -112,7 +117,7 @@ const TaskList = ({ currentProject }) => {
         if (currentProject.id) {
             init();
         }
-    }, [currentProject, refresh]);
+    }, [currentProject, refresh, taskListSearchCondition]);
 
     return (
         <div className={styles['task-list']}>

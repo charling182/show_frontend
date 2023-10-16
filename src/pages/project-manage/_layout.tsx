@@ -22,6 +22,9 @@ const ProjectManage = (props) => {
     };
 
     useEffect(() => {
+        socketInstance.on('sync', () => {
+            console.log('sync连接------------');
+        });
         socketInstance.on('connect', () => {
             console.log('WebSocket connection opened');
         });

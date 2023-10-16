@@ -1,5 +1,9 @@
-export const setJwtToLocalstorage = (token: string) => {
-    localStorage.setItem('Authorization', 'Bearer ' + token);
+export const setJwtToLocalstorage = (token: { accessToken: string; userId: number }) => {
+    const data = JSON.stringify({
+        accessToken: 'Bearer ' + token.accessToken,
+        userId: token.userId,
+    });
+    localStorage.setItem('Authorization', data);
 };
 
 export const getJwtFromLocalstorage = () => {

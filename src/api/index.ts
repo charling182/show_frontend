@@ -13,6 +13,7 @@ export * from './upload';
 export * from './invite';
 export * from './message';
 export * from './tasks';
+export * from './operation';
 
 // /**
 //  * 后端接口地址的前缀。

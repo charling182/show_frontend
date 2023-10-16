@@ -2,18 +2,24 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Dropdown, Menu, Input, Button, message } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import styles from './index.less';
-import { SearchOutlined, CheckOutlined } from '@ant-design/icons';
+import { SearchOutlined, CheckOutlined, UserOutlined } from '@ant-design/icons';
 import { getOneProject, getProjectList } from '@/api';
 import { useParams, history } from 'umi';
 import TaskList from '../components/task';
 import { If } from 'tsx-control-statements/components';
+import TaskFilter from '../components/task/components/task-filter';
+import AddMemberToProjectDialog from '@/pages/project-manage/list/components/add-member-to-project-dialog';
 
 const ProjectTask = () => {
+    // 添加成员显示隐藏
+    const [addMemberVisible, setAddMemberVisible] = useState<boolean>(false);
+    // 任务列表搜索条件对象
+    const [taskListSearchCondition, setTaskListSearchCondition] = useState<any>({});
     // 获取id,别名为projectId
     const { id: projectId }: any = useParams();
 
     const [userPermissions, setUserPermissions] = useState({});
-    const [tabs, setTabs] = useState(['任务', '文件', '概览']);
+    const [tabs, setTabs] = useState(['任务']);
     const [userProjectCount, setUserProjectCount] = useState(0);
 
     const [currentProjectId, setCurrentProjectId] = useState();
@@ -35,6 +41,7 @@ const ProjectTask = () => {
         const res = await getOneProject({ id });
         if (res.code === 200) {
             setCurrentProject(res.data);
+            setUserProjectCount(res?.data?.member?.length || 0);
         } else {
             message.error(res.message);
         }
@@ -47,6 +54,14 @@ const ProjectTask = () => {
         } else {
             message.error(res.message);
         }
+    };
+
+    // 添加成员完成或者退出事件
+    const handleAddMemberFinish = (type: 'success' | 'quit') => {
+        setAddMemberVisible(false);
+    };
+    const handleAddUser = () => {
+        setAddMemberVisible(true);
     };
 
     useEffect(() => {
@@ -124,14 +139,31 @@ const ProjectTask = () => {
                     ))}
                 </div>
 
-                <div className={styles['wrap-controller']}></div>
+                <div className={styles['wrap-controller']}>
+                    <TaskFilter
+                        projectMembers={currentProject?.members}
+                        taskListSearchCondition={taskListSearchCondition}
+                        setTaskListSearchCondition={setTaskListSearchCondition}
+                    />
+                    <Button onClick={handleAddUser} type="link" icon={<UserOutlined />}>
+                        <span>{userProjectCount}</span>
+                    </Button>
+                </div>
             </div>
 
             <div className={styles['wrap-content']}>
                 <If condition={indexTab === 0}>
-                    <TaskList currentProject={currentProject} />
+                    <TaskList
+                        taskListSearchCondition={taskListSearchCondition}
+                        currentProject={currentProject}
+                    />
                 </If>
             </div>
+            <AddMemberToProjectDialog
+                project={currentProject}
+                handleAddMemberFinish={handleAddMemberFinish}
+                addMemberVisible={addMemberVisible}
+            />
         </div>
     );
 };

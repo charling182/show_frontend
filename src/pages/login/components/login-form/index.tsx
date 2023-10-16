@@ -29,8 +29,9 @@ const LoginForm = (props: LoginFormProps) => {
                 if (getJwtFromLocalstorage()) {
                     removeJwtFromLocalstorage();
                 }
+                const { accessToken, userId } = res.data;
                 // 设置初始化数据
-                setJwtToLocalstorage(res.data.accessToken);
+                setJwtToLocalstorage({ accessToken, userId });
                 const userInfo = await getUserInfo();
                 if (userInfo.code === 200) {
                     setInitialState({

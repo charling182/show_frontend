@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Badge, Avatar } from 'antd';
 import { title } from '~/config/_vars.ts';
 import { For, If } from 'tsx-control-statements/components';
@@ -7,11 +7,16 @@ import GithubPath from '@/components/github-path';
 import MessageBox from '@/components/message-box';
 import UserOperation from '@/components/user-operation';
 import { UserOutlined } from '@ant-design/icons';
-import { useModel } from 'umi';
+import { useModel, useStore } from 'umi';
 
 import styles from './index.less';
 
 const LayoutHeader = () => {
+    const store = useStore();
+
+    const {
+        socket: { onlineUserSocketIds },
+    }: any = store.getState();
     const { initialState } = useModel('@@initialState');
     const logoTitle: string = title.charAt(0).toUpperCase() + title.slice(1);
     const accessRoutesTreeNoHidden: any[] = [];
@@ -33,13 +38,15 @@ const LayoutHeader = () => {
         setMessageCount(count);
     };
 
+    useEffect(() => {}, []);
+
     return (
         <div className={styles['header-react-charling']}>
             <div className={styles['wrap-nav-ctrl']}>
                 <div className={styles['wrap-ctrl']}>
                     <GithubPath />
                     <div className={styles['wrap-online-user']}>
-                        <Badge color="#1890ff" size="small" count={onlineUserIds.length}>
+                        <Badge color="#1890ff" size="small" count={onlineUserSocketIds.length}>
                             <IconFont type="duoren" />
                         </Badge>
                     </div>

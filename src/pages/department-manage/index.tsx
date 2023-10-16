@@ -59,7 +59,7 @@ const DepartmentManagement = () => {
                 date_after_created: Dayjs().subtract(30, 'day').format('YYYY-MM-DD 00:00:00'),
             });
         index === 2 && setUserListParams({ department_id: 0 });
-        index === 3 && setUserListParams({ status: 0 });
+        index === 3 && setUserListParams({ state: 0 });
         setMemberSelectIndex(index);
     };
 

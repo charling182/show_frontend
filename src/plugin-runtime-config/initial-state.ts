@@ -6,9 +6,6 @@ import { getUserInfo } from '@/api';
 export async function getInitialState() {
     const dvaApp = getDvaApp();
     console.log('getInitialState------2222222', dvaApp);
-    // const socketState = dvaApp._store.getState().socket;
-    // console.log('Counter state:-------', socketState);
-    // dvaApp._store.dispatch({ type: 'socket/SocketConnect' });
     let initData = {};
     const { data, code } = await getUserInfo();
     if (code === 200) {
