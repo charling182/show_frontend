@@ -5,8 +5,13 @@ import styles from './index.less';
 import { title } from '~/config/_vars';
 import { If } from 'tsx-control-statements/components';
 import { login, getUserInfo } from '@/api';
-import { history, useModel } from 'umi';
-import { setJwtToLocalstorage, removeJwtFromLocalstorage, getJwtFromLocalstorage } from '@/utils';
+import { history, useModel, useDispatch } from 'umi';
+import {
+    setJwtToLocalstorage,
+    removeJwtFromLocalstorage,
+    getJwtFromLocalstorage,
+    setSocketToLocalstorage,
+} from '@/utils';
 
 interface FormValues {
     username: string;
@@ -19,6 +24,7 @@ interface LoginFormProps {
 
 const LoginForm = (props: LoginFormProps) => {
     const { setInitialState } = useModel('@@initialState');
+    const dispatch = useDispatch();
     const { setStatus } = props;
     const [loading, setLoading] = useState<boolean>(false);
     const logoTitle: string = title.charAt(0).toUpperCase() + title.slice(1);
@@ -39,7 +45,9 @@ const LoginForm = (props: LoginFormProps) => {
                     });
                 }
                 message.success('登录成功');
-                history.push('/');
+                console.log('登录成功---------');
+
+                history.push('/workbench');
             }
         } catch (error) {
             console.log(error);

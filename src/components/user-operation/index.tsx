@@ -6,10 +6,10 @@ import { IconFont } from '@/components/iconfont';
 import { history, useDispatch } from 'umi';
 import { Modal, message } from 'antd';
 import { getLogout } from '@/api';
-import { removeJwtFromLocalstorage } from '@/utils';
+import { removeJwtFromLocalstorage, removeSocketFromLocalstorage } from '@/utils';
 
 const UserOperation = ({ children }) => {
-    //   const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     const handleGoToUserSetting = () => {
         history.push('/personal-center');

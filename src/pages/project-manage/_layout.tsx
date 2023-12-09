@@ -6,44 +6,41 @@ import styles from './index.less';
 const ProjectManage = (props) => {
     const store = useStore();
 
-    const {
-        socket: { socketInstance },
-    }: any = store.getState();
+    // const {
+    //     socket: { socketInstance },
+    // }: any = store.getState();
 
     const [message, setMessage] = useState('');
     const [chatHistory, setChatHistory] = useState([]);
 
     const handleSendMessage = () => {
         if (message.trim() !== '') {
-            socketInstance.emit('ack', message);
+            // socketInstance.emit('ack', message);
             setMessage('');
             // handlePublicSendMessage(message);
         }
     };
 
     useEffect(() => {
-        socketInstance.on('sync', () => {
-            console.log('sync连接------------');
-        });
-        socketInstance.on('connect', () => {
-            console.log('WebSocket connection opened');
-        });
-
-        socketInstance.on('res', (data) => {
-            console.log(`Received message: ${data}`);
-        });
-
-        socketInstance.on('disconnect', (reason) => {
-            console.log(`WebSocket connection closed: ${reason}`);
-        });
-        socketInstance.on('packet', (data) => {
-            setChatHistory((prevState) => [...prevState, data]);
-            console.log(`项目管理收到了: ${data}`);
-        });
-
-        return () => {
-            socketInstance.off();
-        };
+        // socketInstance.on('sync', () => {
+        //     console.log('sync连接------------');
+        // });
+        // socketInstance.on('connect', () => {
+        //     console.log('layout---------WebSocket connection opened');
+        // });
+        // socketInstance.on('res', (data) => {
+        //     console.log(`layout----------Received message: ${data}`);
+        // });
+        // socketInstance.on('disconnect', (reason) => {
+        //     console.log(`layout----------WebSocket connection closed: ${reason}`);
+        // });
+        // socketInstance.on('packet', (data) => {
+        //     setChatHistory((prevState) => [...prevState, data]);
+        //     console.log(`layout----------项目管理收到了: ${data}`);
+        // });
+        // return () => {
+        //     socketInstance.off();
+        // };
     }, []);
 
     return <div className={styles['project-manage']}>{props.children}</div>;

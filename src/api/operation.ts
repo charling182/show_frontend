@@ -13,9 +13,9 @@ export async function getOperationList(params: any) {
 /**
  * 删除操作日志
  */
-export async function deleteOperation(params: any) {
+export async function deleteOperation(params: { ids: number[] }) {
     return request('/operation_logs', {
         method: 'DELETE',
-        params,
+        data: params,
     });
 }

@@ -17,6 +17,8 @@ type menuListItem = {
 
 export default (initialState: any) => {
     let access: Record<string, boolean> = {};
+    console.log('initialState-----------', initialState);
+
     // if (initialState && initialState.statusCodeValue !== 401) {
     //   const menuListField = 'wfMenuList';
     //   const permissionField = 'permissionCode';

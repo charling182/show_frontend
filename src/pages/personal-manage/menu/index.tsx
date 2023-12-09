@@ -279,10 +279,10 @@ const MenuManagement = () => {
     );
 };
 
-MenuManagement.menu = {
-    name: '菜单管理',
-    icon: 'MenuOutlined',
-};
+// MenuManagement.menu = {
+//     name: '菜单管理',
+//     icon: 'MenuOutlined',
+// };
 
-MenuManagement.order = 3;
+// MenuManagement.order = 3;
 export default MenuManagement;

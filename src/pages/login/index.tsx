@@ -10,8 +10,6 @@ import LoginForm from './components/login-form';
 import RegisterForm from './components/register-form';
 import RetrievePasswordForm from './components/retrieve-password-form';
 import { When, Otherwise, Choose } from 'tsx-control-statements/components';
-import { getTestData } from '@/api';
-
 interface FormValues {
     username: string;
     password: string;

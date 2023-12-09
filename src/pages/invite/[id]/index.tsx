@@ -28,6 +28,8 @@ const Invite = ({ match }) => {
                 project_id: data.group_id,
             });
             setData(data);
+            console.log('data-------', data);
+
             if (count) {
                 setJoined(true);
             } else {
@@ -47,7 +49,7 @@ const Invite = ({ match }) => {
         if (code === 200) {
             // 跳转到项目详情页
             message.success('加入成功');
-            // history.push(`/project/${data.group_id}`);
+            history.replace(`/project-manage/project/${data.group_id}`);
         }
     };
 

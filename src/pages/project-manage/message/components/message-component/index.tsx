@@ -4,7 +4,7 @@ import styles from './index.less';
 import { getMessageList, updateMessage } from '@/api';
 import { useModel } from 'umi';
 import BImage from '@/components/b-image';
-import { history } from 'umi';
+import { history, useSelector } from 'umi';
 
 interface IProps {
     type: 'mention' | 'inform' | 'personal';
@@ -12,6 +12,9 @@ interface IProps {
 
 const Message = ({ type = 'mention' }: IProps) => {
     const { initialState } = useModel('@@initialState');
+    const {
+        socket: { messageCount },
+    } = useSelector((state: any) => state);
     const userInfo: any = initialState || {};
     const [list, setList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -36,6 +39,8 @@ const Message = ({ type = 'mention' }: IProps) => {
 
     const fetchData = async () => {
         setLoading(true);
+        console.log('fetchData-------------消息数变化,驱动页面更新一下');
+
         const {
             data: { rows, count },
         } = await getMessageList(requestParams);
@@ -125,7 +130,7 @@ const Message = ({ type = 'mention' }: IProps) => {
 
     useEffect(() => {
         fetchData();
-    }, [refresh, requestParams]);
+    }, [refresh, requestParams, messageCount]);
 
     return (
         <div className={styles['message-management-container']}>

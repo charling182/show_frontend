@@ -246,9 +246,14 @@ export const layout: LayoutConfig & BasicLayoutProps = {
     },
     patchMenus: (menuItems: MenuDataItem[], { initialState }: any): MenuDataItem[] => {
         let accessibleItems = getAccessibleMenuItems(menuItems);
-        // console.log('initialState', initialState);
-
-        // console.log('accessibleItems', accessibleItems);
+        console.log('initialState', initialState);
+        // 如果不是超级管理员,不展示管理员配置菜单和部门管理菜单
+        if (initialState?.id !== 1) {
+            const idx = menuItems.findIndex((i) => i.key === '/department-manage');
+            const idx1 = menuItems.findIndex((i) => i.key === '/personal-manage');
+            idx !== -1 && (menuItems[idx].hideInMenu = true);
+            idx1 !== -1 && (menuItems[idx1].hideInMenu = true);
+        }
         let sorted = sortRoutes(accessibleItems);
         console.log('sorted', sorted);
         return sorted;

@@ -282,7 +282,7 @@ const UserManagement = () => {
 };
 
 UserManagement.menu = {
-    name: '用户管理',
+    name: '用户列表',
     icon: 'LineChartOutlined',
 };
 

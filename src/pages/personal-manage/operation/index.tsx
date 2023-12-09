@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Input, Tag, Pagination, Modal, message } from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 
 import { getOperationList, deleteOperation } from '@/api';
 import styles from './index.less';
@@ -67,33 +67,24 @@ const UserManagement = () => {
         setUserRoleManagementVisible(false);
     };
 
-    const handleDelete = (row) => {
-        if (row.id) {
+    const handleDelete = () => {
+        if (selectedRows.length > 0) {
+            // const ids = selectedRows.map((item) => item.id);
             confirm({
-                title: '你确定要删除当前项吗?',
+                title: '你确定要删除选中项吗?',
                 icon: <ExclamationCircleOutlined />,
                 onOk: async () => {
-                    await deleteOperation({ ids: [row.id] });
+                    const ids = selectedRows.map((item) => item.id);
+                    console.log('ids-----------', ids);
+
+                    await deleteOperation({ ids });
                     message.success('删除成功');
                     setRefresh(refresh + 1);
                 },
             });
         } else {
-            if (selectedRows.length > 0) {
-                const ids = selectedRows.map((item) => item.id);
-                confirm({
-                    title: '你确定要删除选中项吗?',
-                    icon: <ExclamationCircleOutlined />,
-                    onOk: async () => {
-                        await deleteOperation({ ids });
-                        message.success('删除成功');
-                        setRefresh(refresh + 1);
-                    },
-                });
-            } else {
-                message.error('未选中任何行');
-                return false;
-            }
+            message.error('未选中任何行');
+            return false;
         }
     };
 
@@ -135,10 +126,10 @@ const UserManagement = () => {
                 type = 'success';
                 break;
             case 'PUT':
-                type = '';
+                type = 'success';
                 break;
             case 'DELETE':
-                type = 'info';
+                type = 'error';
                 break;
             default:
                 type = 'info';
@@ -197,7 +188,15 @@ const UserManagement = () => {
     return (
         <div className={styles['user-management']}>
             <div className={styles.header}>
-                <div></div>
+                <Button
+                    danger
+                    icon={<DeleteOutlined />}
+                    disabled={selectedRows.length === 0}
+                    // disabled={!rolePermissions.doCreate}
+                    onClick={() => handleDelete()}
+                >
+                    批量删除
+                </Button>
                 <Input.Search
                     style={{ width: '240px' }}
                     placeholder="操作人/状态码/请求IP/请求方法/请求路径"
@@ -252,6 +251,6 @@ UserManagement.menu = {
     icon: 'LineChartOutlined',
 };
 
-UserManagement.order = 4;
+UserManagement.order = 3;
 
 export default UserManagement;

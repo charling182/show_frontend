@@ -40,31 +40,28 @@ const Workbench: FC<PageProps> & types.IConventionRouting = ({ socket: { socketI
     const handleSendMessage = () => {
         if (message.trim() !== '') {
             // handlePublicSendMessage(message);
-            socketInstance.emit('ack', message);
+            // socketInstance.emit('ack', message);
             setMessage('');
         }
     };
 
     useEffect(() => {
-        socketInstance.on('connect', () => {
-            console.log('WebSocket connection opened');
-        });
-
-        socketInstance.on('res', (data) => {
-            console.log(`Received message: ${data}`);
-        });
-
-        socketInstance.on('disconnect', (reason) => {
-            console.log(`WebSocket connection closed: ${reason}`);
-        });
-        socketInstance.on('packet', (data) => {
-            setChatHistory((prevState) => [...prevState, data]);
-            console.log(`项目管理收到了: ${data}`);
-        });
-
-        return () => {
-            socketInstance.off();
-        };
+        // socketInstance.on('connect', () => {
+        //     console.log('WebSocket connection opened');
+        // });
+        // socketInstance.on('res', (data) => {
+        //     console.log(`Received message: ${data}`);
+        // });
+        // socketInstance.on('disconnect', (reason) => {
+        //     console.log(`WebSocket connection closed: ${reason}`);
+        // });
+        // socketInstance.on('packet', (data) => {
+        //     setChatHistory((prevState) => [...prevState, data]);
+        //     console.log(`项目管理收到了: ${data}`);
+        // });
+        // return () => {
+        //     socketInstance.off();
+        // };
     }, []);
 
     return (

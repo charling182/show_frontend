@@ -13,3 +13,21 @@ export const getJwtFromLocalstorage = () => {
 export const removeJwtFromLocalstorage = () => {
     localStorage.removeItem('Authorization');
 };
+/**
+ * 确认设置websocket
+ */
+export const setSocketToLocalstorage = () => {
+    localStorage.setItem('socket', 'true');
+};
+/**
+ * 获取websocket的设置情况
+ */
+export const getSocketFromLocalstorage = () => {
+    return localStorage.getItem('socket');
+};
+/**
+ * 移除websocket的设置情况
+ */
+export const removeSocketFromLocalstorage = () => {
+    localStorage.removeItem('socket');
+};

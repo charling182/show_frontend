@@ -1,6 +1,8 @@
 import React from 'react';
 import { layout } from './app-config';
 import './plugin-runtime-config/react-placeholder';
+import { getRouteByPath } from '@/utils/route';
+import { history } from 'umi';
 
 /**
  * umi 运行是配置 https://umijs.org/zh-CN/docs/runtime-config
@@ -36,6 +38,7 @@ interface IOpts extends IRouterComponentProps {
 //     }
 //     return args.routes;
 // }
+// patchRoutes 函数在 UmiJS 应用启动时只会被触发一次。这个函数的主要用途是允许你在应用启动时动态修改路由配置。
 export function patchRoutes(args: { routes: types.IRoute[] }) {
     // 隐藏导航栏、菜单栏、底部栏
     // const onlyShowMain = history.location.query?.onlyShowMain;
@@ -63,11 +66,11 @@ export function patchRoutes(args: { routes: types.IRoute[] }) {
     return args.routes;
 }
 
+// onRouteChange({ location, routes, action })：这个函数在路由改变后被调用。它接收一个对象作为参数，
 export function onRouteChange({ location, routes, action }) {
-    console.log('onRouteChange', location, routes, action, location === '/personal-center/test-2');
-    if (location.pathname === '/personal-center/test-2') {
-        console.log('进入');
-
+    let haveRoute = getRouteByPath(routes, location.pathname);
+    // 路由不存在,跳转到404
+    if (!haveRoute) {
         history.push('/404');
     }
 }

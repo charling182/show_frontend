@@ -6,7 +6,7 @@ const PersonalManage = (props) => {
 };
 
 PersonalManage.menu = {
-    name: '用户管理',
+    name: '管理员配置',
     icon: 'LineChartOutlined',
 };
 

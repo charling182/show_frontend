@@ -20,19 +20,19 @@ const UseSocket = () => {
 
     useEffect(() => {
         socket.on('connect', () => {
-            console.log('WebSocket connection opened');
+            console.log('useSocket----------- WebSocket connection opened');
         });
 
         socket.on('res', (data) => {
-            console.log(`Received message: ${data}`);
+            console.log(`useSocket----------- Received message: ${data}`);
         });
 
         socket.on('disconnect', (reason) => {
-            console.log(`WebSocket connection closed: ${reason}`);
+            console.log(`useSocket----------- WebSocket connection closed: ${reason}`);
         });
         socket.on('packet', (data) => {
             setChatHistory((prevState) => [...prevState, data]);
-            console.log(`项目管理收到了: ${data}`);
+            console.log(`useSocket----------- 项目管理收到了: ${data}`);
         });
 
         // socket.connect();

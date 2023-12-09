@@ -1,3 +1,31 @@
+import { pathToRegexp } from 'path-to-regexp';
+
+/**
+ * 遍历路由表，根据`path`查找路由对象。
+ * 比下面原来的方法强在可以匹配动态路由，比如`/user/:id`。
+ *
+ * @export
+ * @param {types.IRoute[]|undefined} routes 全局路由表，通过`props.routes`来获取。
+ *
+ * 注意：访问`props.routes`在`typescript`中会提示不存在，需要自己手动声明，参见下面的示例代码。
+ * @param {string} path 路由路径
+ * @returns {types.IRoute|undefined} 路由对象，如果没找到的话，返回`undefined`
+ */
+export function getRouteByPath(routes: types.IRoute[], path: string): types.IRoute | undefined {
+    for (const route of routes) {
+        const regexp = pathToRegexp(decodeURIComponent(route.path));
+        if (regexp.test(path)) {
+            return route;
+        }
+        if (route.children) {
+            const childRoute = getRouteByPath(route.children, path); // 修改了这一行
+            if (childRoute) {
+                return childRoute;
+            }
+        }
+    }
+    return undefined;
+}
 /**
  * 遍历路由表，根据`path`查找路由对象。
  *
@@ -8,29 +36,29 @@
  * @param {string} path 路由路径
  * @returns {types.IRoute|undefined} 路由对象，如果没找到的话，返回`undefined`
  */
-export function getRouteByPath(
-    routes: types.IRoute[] | undefined,
-    path: string
-): types.IRoute | undefined {
-    if (!routes) {
-        return undefined;
-    }
-    const matchedPath = routes.find((r) => r.path === path);
-    if (matchedPath) {
-        return matchedPath;
-    } else {
-        for (let i = 0; i < routes.length; i++) {
-            const route = routes[i];
-            if (route.routes) {
-                const matchedChildRoute = getRouteByPath(route.routes, path);
-                if (matchedChildRoute) {
-                    return matchedChildRoute;
-                }
-            }
-        }
-        return undefined;
-    }
-}
+// export function getRouteByPath(
+//     routes: types.IRoute[] | undefined,
+//     path: string
+// ): types.IRoute | undefined {
+//     if (!routes) {
+//         return undefined;
+//     }
+//     const matchedPath = routes.find((r) => r.path === path);
+//     if (matchedPath) {
+//         return matchedPath;
+//     } else {
+//         for (let i = 0; i < routes.length; i++) {
+//             const route = routes[i];
+//             if (route.routes) {
+//                 const matchedChildRoute = getRouteByPath(route.routes, path);
+//                 if (matchedChildRoute) {
+//                     return matchedChildRoute;
+//                 }
+//             }
+//         }
+//         return undefined;
+//     }
+// }
 
 /**
  * `getFirstMenu`方法的调用选项

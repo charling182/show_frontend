@@ -15,7 +15,7 @@ const NotFoundPage = () => {
 
     useEffect(() => {
         if (countdown === 0) {
-            history.push('/');
+            history.push('/workbench');
         }
     }, [countdown, history]);
 
@@ -25,7 +25,7 @@ const NotFoundPage = () => {
             title="404"
             subTitle="抱歉，您访问的页面不存在。"
             extra={
-                <Button type="primary" onClick={() => history.push('/')}>
+                <Button type="primary" onClick={() => history.push('/workbench')}>
                     {countdown > 0 ? `返回首页(${countdown}s)` : '返回首页'}
                 </Button>
             }

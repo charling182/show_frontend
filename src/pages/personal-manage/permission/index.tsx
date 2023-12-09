@@ -1,17 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {
-    Button,
-    Input,
-    Table,
-    Pagination,
-    Form,
-    Space,
-    Popconfirm,
-    message,
-    Row,
-    Col,
-    Modal,
-} from 'antd';
+import { Button, Input, Table, Pagination, Space, message, Modal } from 'antd';
 import {
     PlusOutlined,
     SearchOutlined,
@@ -20,16 +8,14 @@ import {
     DeleteOutlined,
     ExclamationCircleFilled,
 } from '@ant-design/icons';
-import { getRoleList, setDefaultRole, deleteRole } from '@/api';
+import { getPermissionList, deletePermission } from '@/api';
 
 import styles from './index.less';
-import RoleManagementEdit from './components/role-management-edit';
-import RoleMenuManagementEdit from './components/role-menu-management-edit';
-import RolePermissionManagementEdit from './components/role-permission-management-edit';
+import PermissionManagementEdit from './components/permission-management-edit';
 
 const { confirm } = Modal;
 
-const RoleManagement = () => {
+const PermissionMangement = () => {
     const [list, setList] = useState([]);
     const [listLoading, setListLoading] = useState(false);
     const [total, setTotal] = useState(0);
@@ -42,14 +28,9 @@ const RoleManagement = () => {
         pageSize: 10,
         keyword: '',
     });
-    const [roleManagementEditVisible, setRoleManagementEditVisible] = useState<boolean>(false);
-    const [roleMenuManagementEditVisible, setRoleMenuManagementEditVisible] = useState<boolean>(
+    const [permissionManagementEditVisible, setPermissionManagementEditVisible] = useState<boolean>(
         false
     );
-    const [
-        rolePermissionManagementEditVisible,
-        setRolePermissionManagementEditVisible,
-    ] = useState<boolean>(false);
 
     // 自增值,触发重新请求
     const [refresh, setRefresh] = useState<number>(0);
@@ -61,7 +42,7 @@ const RoleManagement = () => {
         const { pageSize, pageNo } = queryForm;
         const {
             data: { rows, count },
-        } = await getRoleList({
+        } = await getPermissionList({
             ...queryForm,
             limit: pageSize,
             offset: (pageNo - 1) * pageSize,
@@ -70,30 +51,20 @@ const RoleManagement = () => {
         setTotal(count);
         setListLoading(false);
     };
-
-    const onEditSuccess = () => {
-        setEditRow({});
-        setRefresh(refresh + 1);
-        setRoleManagementEditVisible(false);
-    };
-    const onMenuEditSuccess = () => {
-        setRefresh(refresh + 1);
-        setRoleMenuManagementEditVisible(false);
-    };
     const onPermissionEditSuccess = () => {
         setRefresh(refresh + 1);
-        setRolePermissionManagementEditVisible(false);
+        setPermissionManagementEditVisible(false);
     };
 
     useEffect(() => {
         fetchData();
     }, [queryForm, refresh]);
 
-    const handleEdit = (row) => {
+    const handleEdit = (row: any) => {
         if (row && row.id) {
             setEditRow(row);
         }
-        setRoleManagementEditVisible(true);
+        setPermissionManagementEditVisible(true);
     };
 
     const handleDelete = (row?: any) => {
@@ -102,11 +73,9 @@ const RoleManagement = () => {
                 title: `你确定要删除当前项吗?`,
                 icon: <ExclamationCircleFilled />,
                 onOk: async () => {
-                    const { data, code } = await deleteRole({ ids: [row.id] });
-                    if (code === 200) {
-                        setRefresh(refresh + 1);
-                        message.success('删除成功');
-                    }
+                    const { data, code } = await deletePermission({ ids: [row.id] });
+                    setRefresh(refresh + 1);
+                    message.success('删除成功');
                 },
                 onCancel() {
                     message.info('已取消');
@@ -118,40 +87,15 @@ const RoleManagement = () => {
                 icon: <ExclamationCircleFilled />,
                 onOk: async () => {
                     const ids = selectedRows.map((item) => item.id);
-                    const { data, code } = await deleteRole({ ids });
-                    if (code === 200) {
-                        setRefresh(refresh + 1);
-                        message.success('删除成功');
-                    }
+                    const { data, code } = await deletePermission({ ids });
+                    setRefresh(refresh + 1);
+                    message.success('删除成功');
                 },
                 onCancel() {
                     message.info('已取消');
                 },
             });
         }
-    };
-
-    const handleSetDefault = (row) => {
-        confirm({
-            title: `你确定要设置 “${row.name}” 为默认角色吗`,
-            icon: <ExclamationCircleFilled />,
-            onOk: async () => {
-                const { data, code } = await setDefaultRole({ id: row.id });
-                if (code === 200) {
-                    setRefresh(refresh + 1);
-                    message.success('设置成功');
-                }
-            },
-            onCancel() {
-                message.info('已取消');
-            },
-        });
-    };
-    const handleMenuEdit = (row) => {
-        if (row.id) {
-            setEditRow(row);
-        }
-        setRoleMenuManagementEditVisible(true);
     };
 
     const handlePermissionEdit = (row) => {
@@ -178,26 +122,81 @@ const RoleManagement = () => {
 
     const columns = [
         {
-            title: 'ID',
-            dataIndex: 'id',
-            key: 'id',
-            sorter: true,
-            width: '25%',
+            title: '标识码',
+            dataIndex: 'mark',
+            key: 'mark',
         },
         {
-            title: '角色名',
+            title: '标识码名',
+            dataIndex: 'mark_name',
+            key: 'mark_name',
+        },
+        {
+            title: '名称',
             dataIndex: 'name',
             key: 'name',
-            sorter: true,
-            width: '25%',
         },
         {
-            title: '是否为默认角色',
-            dataIndex: 'is_default',
-            key: 'is_default',
-            width: '25%',
-            render: (is_default: number) => {
-                return is_default === 1 ? (
+            title: '路径',
+            dataIndex: 'url',
+            key: 'url',
+        },
+        {
+            title: '动作',
+            dataIndex: 'action',
+            key: 'action',
+        },
+        {
+            title: '状态',
+            dataIndex: 'state',
+            key: 'state',
+            width: 100,
+            render: (state: number) => {
+                return state === 1 ? (
+                    <CheckOutlined
+                        style={{
+                            color: '#67C23A',
+                            fontSize: '16px',
+                        }}
+                    />
+                ) : (
+                    <CloseOutlined
+                        style={{
+                            color: '#F56C6C',
+                            fontSize: '16px',
+                        }}
+                    />
+                );
+            },
+        },
+        {
+            title: '需要认证',
+            dataIndex: 'authentication',
+            key: 'authentication',
+            render: (authentication: number) => {
+                return authentication === 1 ? (
+                    <CheckOutlined
+                        style={{
+                            color: '#67C23A',
+                            fontSize: '16px',
+                        }}
+                    />
+                ) : (
+                    <CloseOutlined
+                        style={{
+                            color: '#F56C6C',
+                            fontSize: '16px',
+                        }}
+                    />
+                );
+            },
+        },
+        {
+            title: '需要授权',
+            dataIndex: 'authorization',
+            key: 'authorization',
+            render: (authorization: number) => {
+                return authorization === 1 ? (
                     <CheckOutlined
                         style={{
                             color: '#67C23A',
@@ -222,14 +221,7 @@ const RoleManagement = () => {
                 <Space>
                     <Button
                         type="link"
-                        disabled={record.id === 1}
-                        onClick={() => handlePermissionEdit(record)}
-                    >
-                        资源管理
-                    </Button>
-                    <Button
-                        type="link"
-                        disabled={record.id === 1}
+                        // disabled={!rolePermissions.doEdit}
                         onClick={() => handleEdit(record)}
                     >
                         编辑
@@ -237,17 +229,10 @@ const RoleManagement = () => {
                     <Button
                         type="link"
                         danger
-                        disabled={record.id === 1}
+                        // disabled={!rolePermissions.doEdit}
                         onClick={() => handleDelete(record)}
                     >
                         删除
-                    </Button>
-                    <Button
-                        type="link"
-                        disabled={record.is_default === 1}
-                        onClick={() => handleSetDefault(record)}
-                    >
-                        设为默认
                     </Button>
                 </Space>
             ),
@@ -269,10 +254,8 @@ const RoleManagement = () => {
                     <Button
                         danger
                         icon={<DeleteOutlined />}
-                        disabled={
-                            selectedRows.length === 0 ||
-                            selectedRows.map((item) => item.id).includes(1)
-                        }
+                        disabled={selectedRows.length === 0}
+                        // disabled={!rolePermissions.doCreate}
                         onClick={() => handleDelete()}
                     >
                         批量删除
@@ -280,7 +263,7 @@ const RoleManagement = () => {
                 </Space>
                 <Input.Search
                     style={{ width: '240px' }}
-                    placeholder="请输入角色名"
+                    placeholder="请输入资源名称"
                     allowClear
                     value={searchVal}
                     onSearch={handleSearch}
@@ -321,34 +304,21 @@ const RoleManagement = () => {
                 onShowSizeChange={handleSizeChange}
                 onChange={handleCurrentChange}
             />
-
-            <RoleManagementEdit
+            <PermissionManagementEdit
                 editRow={editRow}
-                roleManagementEditVisible={roleManagementEditVisible}
-                setRoleManagementEditVisible={setRoleManagementEditVisible}
-                onEditSuccess={onEditSuccess}
-            />
-            <RoleMenuManagementEdit
-                editRow={editRow}
-                roleMenuManagementEditVisible={roleMenuManagementEditVisible}
-                setRoleMenuManagementEditVisible={setRoleMenuManagementEditVisible}
-                onMenuEditSuccess={onMenuEditSuccess}
-            />
-            <RolePermissionManagementEdit
-                editRow={editRow}
-                rolePermissionManagementEditVisible={rolePermissionManagementEditVisible}
-                setRolePermissionManagementEditVisible={setRolePermissionManagementEditVisible}
-                onPermissionEditSuccess={onPermissionEditSuccess}
+                permissionManagementEditVisible={permissionManagementEditVisible}
+                setPermissionManagementEditVisible={setPermissionManagementEditVisible}
+                onEditSuccess={onPermissionEditSuccess}
             />
         </div>
     );
 };
 
-RoleManagement.menu = {
-    name: '角色管理',
+PermissionMangement.menu = {
+    name: '资源管理',
     icon: 'LineChartOutlined',
 };
 
-RoleManagement.order = 2;
+PermissionMangement.order = 4;
 
-export default RoleManagement;
+export default PermissionMangement;

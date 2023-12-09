@@ -9,3 +9,30 @@ export async function getPermissionList(params: any) {
         params,
     });
 }
+/**
+ * 添加权限
+ */
+export async function addPermission(params: any) {
+    return request('/permissions', {
+        method: 'POST',
+        data: params,
+    });
+}
+/**
+ * 修改权限
+ */
+export async function updatePermission(params: any) {
+    return request('/permissions', {
+        method: 'PUT',
+        data: params,
+    });
+}
+/**
+ * 删除权限
+ */
+export async function deletePermission(params: { ids: number[] }) {
+    return request('/permissions', {
+        method: 'DELETE',
+        data: params,
+    });
+}
